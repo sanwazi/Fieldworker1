@@ -1,0 +1,68 @@
+package com.example.service;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import android.R.integer;
+import android.content.Context;
+
+import com.example.dao.AddLogDao;
+import com.example.dao.TraitDao;
+import com.example.dao.TraitListContentDao;
+import com.example.dao.TraitListDao;
+import com.example.domain.AddLog;
+import com.example.domain.TraitList;
+import com.example.domain.TraitListContent;
+
+public class TraitListService {
+	private TraitListDao traitListDao;
+	private TraitListContentDao traitListContentDao;
+	private TraitDao traitDao;
+    private AddLogDao addLogDao;
+	public TraitListService(Context context)
+	{
+		traitListDao=new TraitListDao(context);
+		traitListContentDao=new TraitListContentDao(context);
+		traitDao=new TraitDao(context);
+		addLogDao=new AddLogDao(context);
+	}
+    public void addTraitToTraitList(String traitName,Integer traitListID)
+    {
+    	Integer traitID=traitDao.findIdbyName(traitName);
+    	System.out.println("traitid:"+traitID);
+    	traitListContentDao.insert(new TraitListContent(traitListID, traitID));
+    }
+    public void addTraitList(TraitList traitList,List<String> traits, boolean b ) {
+		
+    	//System.out.println(new TraitList(traitListID, traitListName, "aa").toString());
+    	traitListDao.insert(traitList);
+    	for (String s:traits) {
+			Integer traitID=traitDao.findIdbyName(s);
+			traitListContentDao.insert(new TraitListContent(traitList.getTraitListID(), traitID));
+    	}
+    	////save the action into AddLog Table
+    	if (!b) {
+			
+		
+    	addLogDao.insert(new AddLog(UUID.randomUUID().hashCode(), "TraitList", traitList.getTraitListID(), null));
+    	
+    	for (String s:traits) {
+			Integer traitID=traitDao.findIdbyName(s);
+			//save the action into AddLog Table
+			addLogDao.insert(new AddLog(UUID.randomUUID().hashCode(), "TraitListContent", traitList.getTraitListID(), traitID));
+		}
+    	}
+	}
+    public void deleteTraitList()
+    {
+    	
+    }
+    public void deleteTraitFromList(String TraitListName, String TraitName)
+    {
+    	int traitListID=traitListDao.findIdByName(TraitListName);
+    	int traitID=traitDao.findIdByName(TraitName);
+    	traitListContentDao.delete(traitListID, traitID);
+    }
+    
+}
