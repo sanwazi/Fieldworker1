@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-	private static final int VERSION=1;
+	private static final int VERSION=31;
 	static String name="FWO";
 	public DatabaseHelper(Context context, CursorFactory factory,
 			int version) {

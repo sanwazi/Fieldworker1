@@ -46,6 +46,7 @@ public class AddTraitList1 extends Activity {
 	   public void onCreate(Bundle savedInstanceBundle)
 	   {
 		   super.onCreate(savedInstanceBundle);
+		   System.out.println("AddTraitList1 starts");
 		   setContentView(R.layout.add_trait_list1);
 		   Intent intent=getIntent();
 			username=intent.getStringExtra("username");

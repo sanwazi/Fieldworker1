@@ -58,7 +58,7 @@ public class AddTraitActivity extends Activity {
 		validator = new Validator(this);
 		validator.setValidationListener(new InputValidatorListener());
 		Rule<EditText> uniqueTraitName = new Rule<EditText>(
-				"Trait name already exsits") {
+				"Trait name already exists") {
 
 			@Override
 			public boolean isValid(EditText arg0) {

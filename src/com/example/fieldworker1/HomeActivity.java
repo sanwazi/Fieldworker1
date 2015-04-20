@@ -721,9 +721,9 @@ public class HomeActivity extends Activity {
 			return true;
 		} else {
 			LogoutAsynTask lTask=new LogoutAsynTask();
-			String UR_STRING = "http://172.31.201.109:8888//workspace/test/Logout.php";
-			System.out.println("HomeActivity username:"+user.getUserName());
-			lTask.execute(UR_STRING,user.getUserName());
+//			String UR_STRING = "http://172.31.201.109:8888//workspace/test/Logout.php";
+//			System.out.println("HomeActivity username:"+user.getUserName());
+			lTask.execute( Constant.urlString + "Logout.php",user.getUserName());
 			Intent intent = new Intent();
 			intent.setClass(HomeActivity.this, MainActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
