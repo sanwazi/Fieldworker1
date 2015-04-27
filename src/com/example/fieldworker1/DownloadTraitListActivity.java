@@ -33,7 +33,6 @@ import com.example.validator.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -68,8 +67,7 @@ public class DownloadTraitListActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
+				super.onCreate(savedInstanceState);
         System.out.println("DownloadTraitListActivity starts");
 		setContentView(R.layout.download_traitlist);
 		listView = (ListView) findViewById(R.id.listView1);
@@ -298,7 +296,6 @@ public class DownloadTraitListActivity extends Activity {
 
 	}
     class AddDownloadTraitListAsyn extends AsyncTask<String, Integer, String>{
-
 		@Override
 		protected String doInBackground(String... params) {
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
@@ -327,6 +324,16 @@ public class DownloadTraitListActivity extends Activity {
     	
     
 		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Toast.makeText(DownloadTraitListActivity.this,
+					"Download Successfully, you can view them in TraitList Management",
+					Toast.LENGTH_LONG).show();
+		}
+		
     }
 	class FindAllAsyncTask extends AsyncTask<String, Integer, String> {		
 		

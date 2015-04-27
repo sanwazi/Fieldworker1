@@ -28,6 +28,7 @@ public class TraitDao {
 		Object obj[] = { t.getTraitID(), t.getTraitName(), t.getWidgetName(),
 				t.getUnit() };
 		sdb.execSQL(sqlString, obj);
+		sdb.close();
 		}
 	}
 

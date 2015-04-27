@@ -70,7 +70,7 @@ public class TraitListPhpService {
 	}
 
 	public void synTraitList(List<AddLog> addLogs, List<AddLog> addLogs2,
-			List<DeleteLog> deleteLogs) {
+			List<DeleteLog> deleteLogs, List<DeleteLog> deleteLogs2) {
 		final AddLogDao addLogDao = new AddLogDao(context);
 		final DeleteLogDao deleteLogDao = new DeleteLogDao(context);
 		TraitListDao traitListDao = new TraitListDao(context);
@@ -78,6 +78,7 @@ public class TraitListPhpService {
 		ArrayList<TraitList> traitLists = new ArrayList<TraitList>();
 		ArrayList<TraitListContent> traits = new ArrayList<TraitListContent>();
 		Integer[] deletedTraitList = new Integer[deleteLogs.size()];
+		ArrayList<TraitListContent> deletedTraitContents=new ArrayList<TraitListContent>();
 		for (int i = 0; i < addLogs.size(); i++) {
 			Integer traitListID = addLogs.get(i).getFirstID();
 
@@ -91,6 +92,11 @@ public class TraitListPhpService {
 		for (int i = 0; i < deleteLogs.size(); i++) {
 			deletedTraitList[i] = deleteLogs.get(i).getFirstID();
 		}
+		for (int i = 0; i < deleteLogs2.size(); i++) {
+			Integer traitListID = deleteLogs2.get(i).getFirstID();
+			Integer traitID = deleteLogs2.get(i).getSecondID();
+			deletedTraitContents.add(new TraitListContent(traitListID,traitID));
+		}
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 
@@ -98,9 +104,11 @@ public class TraitListPhpService {
 		String strJSON = gson.toJson(traitLists);
 		String strJSON2 = gson.toJson(traits);
 		String strJSON3 = gson.toJson(deletedTraitList);
+		String strJSON4 =gson.toJson(deletedTraitContents);
 		params.put("TraitLists", strJSON);
 		params.put("traitContents", strJSON2);
 		params.put("deletedTraitList", strJSON3);
+		params.put("deletedTraitContents", strJSON4);
 		params.put("deviceId", getDeviceID());
 		System.out.println(getDeviceID());
 		System.out.println(strJSON3);
@@ -344,9 +352,7 @@ public class TraitListPhpService {
 
 		@Override
 		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
 			String traitListName = params[0];
-			// System.out.println("^^^"+traitListName);
 			HttpPost httpRequest = new HttpPost(Constant.urlString
 					+ "DeleteTraitList.php");
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
@@ -393,5 +399,46 @@ public class TraitListPhpService {
 				((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
 		return (deviceUuid.toString());
 
+	}
+
+	public void updateTraitList(TraitList tl, ArrayList<String> currentTraits) {
+		List<Trait> traits=new ArrayList<Trait>();
+		TraitDao tDao=new TraitDao(context);
+		for (int i = 0; i < currentTraits.size(); i++) {
+			traits.add(tDao.searchByTraitName(currentTraits.get(i)));
+		}
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+
+		Gson gson = new GsonBuilder().create();
+		String strJSON2 = gson.toJson(traits);
+		
+		params.put("traitContents", strJSON2);
+		params.put("deviceId", getDeviceID());
+		params.put("traitListId", tl.getTraitListID()+"");
+		client.post(Constant.urlString + "UpdateTraitList.php", params,
+				new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(String response) {
+						System.out.println("update trait list php:"+response);
+					}
+
+					public void onFailure(int statusCode, Throwable error,
+							String content) {
+						 if (statusCode == 404) 
+							  System.out.println("Requested resource not found");
+						
+						 else if (statusCode ==500) 
+							  
+						 
+							System.out.println("Something went wrong at server end");
+						 
+							 
+						 else 
+							 System.out.println( "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]");
+							
+					}
+				});
+		
 	}
 }

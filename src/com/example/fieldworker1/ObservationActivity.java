@@ -14,7 +14,6 @@ import com.example.dao.ObservationDao;
 import com.example.dao.PredefineValueDao;
 import com.example.dao.TraitListContentDao;
 import com.example.dao.TraitListDao;
-import com.example.db.DatabaseHelper;
 import com.example.domain.AddLog;
 import com.example.domain.DeleteLog;
 import com.example.domain.Observation;

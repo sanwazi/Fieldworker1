@@ -113,9 +113,7 @@ public class TraitListActivity2 extends Activity {
 		mListView.setOnDeleteListener(new OnDeleteListener(){
 			@Override
 			public void onDelete(int index) {
-				// TODO Auto-generated method stub
-			if (MyApplication.isNetworkOnline()) {
-				
+			if (MyApplication.isNetworkOnline()) {				
 				traitListPhpService.deleteTraitList(list.get(index).get("traitList_name"));
 			}
 			else {

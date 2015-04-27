@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import com.example.fieldworker1.R;
 import com.example.synchronization.Synchronization;
 import com.example.validator.MyApplication;
+import com.example.asynTask.LogoutAsynTask;
 import com.example.dao.AddLogDao;
 import com.example.dao.ObserContentDao;
 import com.example.dao.ObservationDao;
@@ -158,9 +159,17 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onDestroy() {
+		
 		super.onDestroy();
 		userHelper.closeDB();// release database resource
 		builder = null;
+		LogoutAsynTask lTask=new LogoutAsynTask();
+		SharedPreferences mySharedPreferences = getSharedPreferences(
+				PREFS_NAME, 0);
+		String username = mySharedPreferences.getString("username", "");
+		lTask.execute( Constant.urlString + "Logout.php",username);
+		System.out.println("MainActivity onDestroy()");
+		
 	}
 
 	@Override
