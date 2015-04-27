@@ -6,8 +6,11 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -125,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
 		traitListDao = new TraitListDao(this);
 		predefineValueDao = new PredefineValueDao(this);
 
-		sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
 		register = (Button) findViewById(R.id.registerButton);
 		login = (Button) findViewById(R.id.LoginButton);
@@ -415,11 +418,13 @@ public class MainActivity extends ActionBarActivity {
 				if (loginResult == -1) {
 					LoginOnline(user);
 				} else {
-					 Intent intent=new Intent();
-					 intent.putExtra("username",usernameText.getText().toString());
-					 intent.putExtra("password",passwordText.getText().toString());
-					 intent.setClass(MainActivity.this, HomeActivity.class);
-					 startActivity(intent);
+					Intent intent = new Intent();
+					intent.putExtra("username", usernameText.getText()
+							.toString());
+					intent.putExtra("password", passwordText.getText()
+							.toString());
+					intent.setClass(MainActivity.this, HomeActivity.class);
+					startActivity(intent);
 				}
 
 			} else if (result == 2) {
@@ -494,11 +499,14 @@ public class MainActivity extends ActionBarActivity {
 															int which) {
 														// TODO Auto-generated
 														// method stub
+														sdf = new SimpleDateFormat(
+																"yyyy-MM-dd");
 														userHelper.add(user);
 														JSONObject info;
 														List<Integer> observationID = new ArrayList<Integer>();
 														List<Integer> traitListID = new ArrayList<Integer>();
 														Observation observation;
+
 														for (int i = 0; i < flags.length; i++) {
 															if (flags[i]) {
 																try {
@@ -507,15 +515,21 @@ public class MainActivity extends ActionBarActivity {
 																	observationID
 																			.add(info
 																					.getInt("observationID"));
-																	traitListID
-																			.add(info
-																					.getInt("traitListID"));
+																	System.out
+																			.println("traitlist ID:"
+																					+ info.getInt("traitListID"));
+																	if (!traitListID
+																			.contains(info
+																					.getInt("traitListID")))
+																		traitListID
+																				.add(info
+																						.getInt("traitListID"));
 																	if (info.getString(
 																			"endTime")
-																			.equals("null")
+																			.equals("")
 																			|| info.getString(
 																					"endTime")
-																					.equals("0000-00-00"))
+																					.equals("0000-00-00")) {
 																		observation = new Observation(
 																				info.getInt("observationID"),
 																				info.getString("observationName"),
@@ -527,7 +541,9 @@ public class MainActivity extends ActionBarActivity {
 																				info.getString("photoPath"),
 																				info.getString("paintingPath"),
 																				info.getString("comment"));
-																	else
+																	}
+
+																	else {
 																		observation = new Observation(
 																				info.getInt("observationID"),
 																				info.getString("observationName"),
@@ -540,6 +556,7 @@ public class MainActivity extends ActionBarActivity {
 																				info.getString("photoPath"),
 																				info.getString("paintingPath"),
 																				info.getString("comment"));
+																	}
 
 																	observationDao
 																			.addObservation(observation);
@@ -661,8 +678,8 @@ public class MainActivity extends ActionBarActivity {
 							TraitList traitList;
 							for (int i = 0; i < traitLists.length(); i++) {
 								object = traitLists.getJSONObject(i);
-								traitList = new TraitList(UUID.randomUUID()
-										.hashCode(), object
+								traitList = new TraitList( object
+										.getInt("traitListID"), object
 										.getString("traitListName"), object
 										.getString("username"), object
 										.getInt("access"));

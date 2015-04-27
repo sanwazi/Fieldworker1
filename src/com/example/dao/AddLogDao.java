@@ -168,6 +168,7 @@ public class AddLogDao {
 
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
 		Cursor c = db.rawQuery(
 				"SELECT firstID FROM AddLog WHERE tableName = 'Observation'",
 				null);
@@ -177,6 +178,7 @@ public class AddLogDao {
 		while (c.moveToNext()) {
 			map = new HashMap<String, String>();
 			observation = observationDao.findObervationById(c.getInt(0));
+			System.out.println("observation: " + observation);
 			map.put("observationID",
 					String.valueOf(observation.getObservationID()) );
 			map.put("deviceId", deviceId);

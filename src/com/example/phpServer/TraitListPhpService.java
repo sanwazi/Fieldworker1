@@ -32,6 +32,7 @@ import com.example.domain.AddLog;
 import com.example.domain.DeleteLog;
 import com.example.domain.TraitList;
 import com.example.domain.TraitListContent;
+import com.example.fieldworker1.Constant;
 import com.example.fieldworker1.ListViewSubClass;
 import com.example.fieldworker1.MyAdapter;
 import com.example.fieldworker1.R;
@@ -49,7 +50,7 @@ import android.widget.Toast;
 public class TraitListPhpService {
 	private Context context;
 	private String username;
-	private static final String UR_STRING = "http://172.31.201.109:8888";
+	//private static final String UR_STRING = "http://172.31.201.109:8888";
 
 	public TraitListPhpService(Context context, String username) {
 		super();
@@ -99,7 +100,7 @@ public class TraitListPhpService {
 		params.put("deviceId", getDeviceID());
 		System.out.println(getDeviceID());
 		System.out.println(strJSON3);
-		client.post(UR_STRING + "/workspace/test/SynTraitList.php", params,
+		client.post(Constant.urlString + "SynTraitList.php", params,
 				new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(String response) {
@@ -133,7 +134,7 @@ public class TraitListPhpService {
 
 	public void findAll(ListViewSubClass mListView, Context context,
 			List<HashMap<String, String>> list) throws InterruptedException {
-		String url = UR_STRING + "/server.php/";
+		String url = Constant.urlString + "server.php/";
 		FindAllAsyncTask findAllAsyncTask = new FindAllAsyncTask(mListView,
 				context, list);
 		findAllAsyncTask.execute(url);
@@ -154,8 +155,8 @@ public class TraitListPhpService {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 
-			HttpPost httpRequest = new HttpPost(UR_STRING
-					+ "/TraitListService.php");
+			HttpPost httpRequest = new HttpPost(Constant.urlString
+					+ "TraitListService.php");
 			TraitDao traitDao = new TraitDao(context);
 			ArrayList<TraitListContent> contents = new ArrayList<TraitListContent>();
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
@@ -267,8 +268,8 @@ public class TraitListPhpService {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 
-			HttpPost httpRequest = new HttpPost(UR_STRING
-					+ "/FindAllTraitLists.php");
+			HttpPost httpRequest = new HttpPost(Constant.urlString
+					+ "FindAllTraitLists.php");
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
 			param.add(new BasicNameValuePair("username", username));	
 			InputStream is = null;
@@ -332,8 +333,8 @@ public class TraitListPhpService {
 			// TODO Auto-generated method stub
 			String traitListName = params[0];
 			// System.out.println("^^^"+traitListName);
-			HttpPost httpRequest = new HttpPost(UR_STRING
-					+ "/workspace/test/DeleteTraitList.php");
+			HttpPost httpRequest = new HttpPost(Constant.urlString
+					+ "DeleteTraitList.php");
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
 			param.add(new BasicNameValuePair("traitListName", traitListName));
 			try {

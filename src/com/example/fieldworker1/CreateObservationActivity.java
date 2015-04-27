@@ -185,6 +185,7 @@ public class CreateObservationActivity extends Activity {
 
 		observationName = "";
 		drawingPath = "";
+		deletingDeadline = null;
 		photoPath = new ArrayList<String>();
 		max = "";
 		commentStr = "";

@@ -105,13 +105,15 @@ public class ObservationActivity extends Activity {
 		Intent intent = getIntent();
 		user = new User(intent.getStringExtra("username"),
 				intent.getStringExtra("password"));
-
 		observation = observationDao.findObervationById(intent.getIntExtra(
 				"observationID", -1));
 		setContentView(R.layout.activity_observation);
 
 		traitListText = (EditText) findViewById(R.id.traitListObser);
+		System.out.println("observation: "+ observation);
+		
 		String str = traitListDao.findNameById(observation.getTraitListID());
+		System.out.println("?????"+str);
 		traitListText.setText(str);
 		traitListText.setEnabled(false);
 		traitListText.setTextColor(Color.BLACK);

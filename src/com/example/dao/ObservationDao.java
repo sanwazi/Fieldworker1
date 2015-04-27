@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.example.db.DatabaseHelper;
@@ -14,6 +15,8 @@ import com.example.domain.Observation;
 import com.example.domain.User;
 
 import android.R.integer;
+import android.R.string;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -77,7 +80,7 @@ public class ObservationDao {
 		HashMap<String, String> map = new HashMap<String, String>();
 		while (c.moveToNext()) {
 			map.put("observation_name", c.getString(1));
-			if (c.getString(5) != null)
+			if (!c.getString(5).equals(""))
 				map.put("observation_delete", c.getString(5).substring(0, 10));
 			else
 				map.put("observation_delete", "");
@@ -97,6 +100,23 @@ public class ObservationDao {
 	}
 
 	public void addObservation(Observation observation) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String str ;
+		if( observation.getDeleteTime() == null ){
+			str = "";
+		}else{
+			str = sdf.format(observation.getDeleteTime());
+		}
+//		CharSequence dateForMart = android.text.format.DateFormat.format("yyyy-MM-dd", observation.getDeleteTime());
+//		System.out.println("test: " + dateForMart);
+//		try {
+//			System.out.println("add: "+ sdf.parse(String.valueOf(dateForMart)));
+//			System.out.println("add create: "+ observation.getCreateTime());
+//			System.out.println("add end: "+ observation.getDeleteTime());
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		db = helper.getWritableDatabase();
 		db.execSQL(
 				"INSERT INTO Observation(observationID,observationName,username,traitListID,endTime,photoPath,paintingPath,comment)"
@@ -105,7 +125,7 @@ public class ObservationDao {
 						observation.getObservationName(),
 						observation.getUsername(),
 						observation.getTraitListID(),
-						observation.getDeleteTime(),
+						str,
 						observation.getPhotoPath(),
 						observation.getPaintingPath(),
 						observation.getComment()});
@@ -113,7 +133,6 @@ public class ObservationDao {
 	}
 
 	public int findIdByName(String name) {
-		System.out.println("****"+name);
 		int id;
 		db = helper.getWritableDatabase();
 		String sqlString = "SELECT observationID FROM Observation WHERE observationName="
@@ -139,10 +158,12 @@ public class ObservationDao {
 		Date date, endDate;
 		try {
 			date = format1.parse(cursor.getString(4));
-			if ((cursor.getString(5) == null))
+			if (cursor.getString(5).equals(""))
 				endDate = null;
-			else
+			else{
 				endDate = format2.parse(cursor.getString(5));
+			}
+				
 			observation = new Observation(cursor.getInt(0),
 					cursor.getString(1), cursor.getString(2), cursor.getInt(3),
 					date, endDate,cursor.getString(6), cursor.getString(7), cursor.getString(8));

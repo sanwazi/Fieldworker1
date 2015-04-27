@@ -97,23 +97,18 @@ public class AddTraitActivity extends Activity {
 		editTextCount = 1;
 		addButton = (Button) findViewById(R.id.add);
 		addButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				TableRow tableRow = new TableRow(AddTraitActivity.this);
 				tableRow.setId(tableLayout.getChildCount());
-				System.out.println(tableRow.getId());
 				EditText editText = new EditText(AddTraitActivity.this);
 				TableRow.LayoutParams p = new TableRow.LayoutParams(1);
 				editText.setLayoutParams(p);
 				tableRow.addView(editText);
 				tableLayout.addView(tableRow);
 				editTextCount++;
-				// editText
-
 			}
-
 		});
 		deleteButton = (Button) findViewById(R.id.deleteButton);
 		deleteButton.setOnClickListener(new OnClickListener() {
@@ -136,7 +131,6 @@ public class AddTraitActivity extends Activity {
 				RadioButton rb = (RadioButton) AddTraitActivity.this
 						.findViewById(radioButtonId);
 				widgetName = rb.getText().toString();
-				System.out.println(rb.getText());
 				if (rb.getText().equals("EditText")) {
 					for (int i = 3; i < tableLayout.getChildCount(); i++) {
 						TableRow tableRow = (TableRow) tableLayout
@@ -144,7 +138,6 @@ public class AddTraitActivity extends Activity {
 						tableRow.setVisibility(8);
 					}
 				} else if (rb.getText().equals("Slider")) {
-
 					TableRow row1 = (TableRow) tableLayout.getChildAt(3);
 					row1.setVisibility(0);
 					TableRow row2 = (TableRow) tableLayout.getChildAt(4);
@@ -183,8 +176,6 @@ public class AddTraitActivity extends Activity {
 					|| widgetName.equals("RadioButton")) {
 				validateOther();
 			}
-			// validate=FormValidator.validate(AddTraitActivity.this, new
-			// SimpleErrorPopupCallback(AddTraitActivity.this));
 			validator.validate();
 
 		}
@@ -229,15 +220,12 @@ public class AddTraitActivity extends Activity {
 				TableRow tableRow2 = (TableRow) tableLayout.getChildAt(5);
 				EditText editText1 = (EditText) tableRow2.getVirtualChildAt(1);
 				String preVal1 = editText1.getText().toString();
-				System.out.println(preVal1 + "#####");
 				PredefineValue predefineValue = new PredefineValue(
 						t.getTraitID(), preVal1);
 				predefineValueDao.insert(predefineValue);
 				for (int i = 6; i < tableLayout.getChildCount(); i++) {
 					TableRow tableRow3 = (TableRow) tableLayout.getChildAt(i);
-					System.out.println(tableRow2.getChildCount() + "****");
 					EditText eText = (EditText) tableRow3.getVirtualChildAt(1);
-					System.out.println(eText);
 					String preVal2 = eText.getText().toString();
 					PredefineValue predefineValue2 = new PredefineValue(
 							t.getTraitID(), preVal2);
@@ -246,13 +234,8 @@ public class AddTraitActivity extends Activity {
 			}
 			if (widgetName.equals("Slider")) {
 				TableRow tableRow1 = (TableRow) tableLayout.getChildAt(3);
-
-				// EditText editText1=(EditText) tableRow1.getVirtualChildAt(1);
-				// editText1=(EditText) tableRow1.getVirtualChildAt(1);
 				String preVal1 = editText1.getText().toString();
 				TableRow tableRow2 = (TableRow) tableLayout.getChildAt(4);
-				// EditText editText2=(EditText) tableRow2.getVirtualChildAt(1);
-				// editText2=(EditText) tableRow2.getVirtualChildAt(1);
 				String preVal2 = editText2.getText().toString();
 				predefineValueDao.insert(new PredefineValue(t.getTraitID(),
 						preVal1));
