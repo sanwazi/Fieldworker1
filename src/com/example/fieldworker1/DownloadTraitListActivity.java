@@ -33,7 +33,6 @@ import com.example.validator.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -68,9 +67,8 @@ public class DownloadTraitListActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-
+				super.onCreate(savedInstanceState);
+        System.out.println("DownloadTraitListActivity starts");
 		setContentView(R.layout.download_traitlist);
 		listView = (ListView) findViewById(R.id.listView1);
 		button = (Button) findViewById(R.id.download);
@@ -96,7 +94,7 @@ public class DownloadTraitListActivity extends Activity {
 	}
 
 	private void displayListView() throws InterruptedException {
-		String url = Constant.urlString + "server.php";
+		String url = Constant.urlString + "FindAllTraitLists.php";
 		FindAllAsyncTask findAllAsyncTask = new FindAllAsyncTask();
 		findAllAsyncTask.execute(url);
 	}
@@ -298,7 +296,6 @@ public class DownloadTraitListActivity extends Activity {
 
 	}
     class AddDownloadTraitListAsyn extends AsyncTask<String, Integer, String>{
-
 		@Override
 		protected String doInBackground(String... params) {
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
@@ -327,6 +324,16 @@ public class DownloadTraitListActivity extends Activity {
     	
     
 		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Toast.makeText(DownloadTraitListActivity.this,
+					"Download Successfully, you can view them in TraitList Management",
+					Toast.LENGTH_LONG).show();
+		}
+		
     }
 	class FindAllAsyncTask extends AsyncTask<String, Integer, String> {		
 		
@@ -352,7 +359,7 @@ public class DownloadTraitListActivity extends Activity {
 					result = "Can't find Your name!";
 				}
 			} catch (Exception e) {
-				
+				System.out.println(e.toString());
 			}
 			MyCustomAdapter dataAdapter = new MyCustomAdapter(
 					DownloadTraitListActivity.this, R.layout.traitlist_info,
@@ -382,8 +389,7 @@ public class DownloadTraitListActivity extends Activity {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 
-			HttpPost httpRequest = new HttpPost(Constant.urlString
-					+ "FindAllTraitLists.php");
+			HttpPost httpRequest = new HttpPost(params[0]);
 			List<NameValuePair> param = new ArrayList<NameValuePair>();
 			param.add(new BasicNameValuePair("username", username));
 			InputStream is = null;
@@ -413,7 +419,7 @@ public class DownloadTraitListActivity extends Activity {
 				}
 				is.close();
 				result = sb.toString();
-
+                System.out.println("findAll result:"+result);
 			} catch (Exception e) {
 				
 			}

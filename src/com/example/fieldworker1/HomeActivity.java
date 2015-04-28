@@ -119,9 +119,17 @@ public class HomeActivity extends Activity {
 
 	@Override
     public void onPause() {
-        super.onDestroy();
+        super.onPause();
         unregisterReceiver(mReceiver);
     }
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		LogoutAsynTask lTask=new LogoutAsynTask();
+		lTask.execute( Constant.urlString + "Logout.php",user.getUserName());
+		System.out.println("HomeActivity onDestroy");
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -146,13 +154,15 @@ public class HomeActivity extends Activity {
 			List<AddLog> addLogs2 = new ArrayList<AddLog>();
 			addLogs2 = addLogDao.findAllByTableName("TraitListContent");
 			List<DeleteLog> deleteLogs = new ArrayList<DeleteLog>();
+			List<DeleteLog> deleteLogs2 = new ArrayList<DeleteLog>();
 			deleteLogs = deleteLogDao.findAllByTableName("TraitList");
+			deleteLogs2=deleteLogDao.findAllByTableName("TraitListContent");
 			// JSONArray jsonArray=JSONArray.fromObject(addLogs);
 			System.out.println("Add log size:"+addLogs.size());
 			if (addLogs.size() > 0 || deleteLogs.size() > 0
-					|| addLogs2.size() > 0) {
+					|| addLogs2.size() > 0||deleteLogs2.size()>0) {
                 System.out.println("home activity addLogs size not empty");
-				traitListPhpService.synTraitList(addLogs, addLogs2, deleteLogs);
+				traitListPhpService.synTraitList(addLogs, addLogs2, deleteLogs,deleteLogs2);
 			}
 
 		}
@@ -318,7 +328,7 @@ public class HomeActivity extends Activity {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// TODO Auto-generated method stub
+									
 									if (chartType == "") {
 										Toast.makeText(HomeActivity.this,
 												"Please select a chart type.",

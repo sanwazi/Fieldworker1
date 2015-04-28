@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import com.example.fieldworker1.R;
 import com.example.synchronization.Synchronization;
 import com.example.validator.MyApplication;
+import com.example.asynTask.LogoutAsynTask;
 import com.example.dao.AddLogDao;
 import com.example.dao.ObserContentDao;
 import com.example.dao.ObservationDao;
@@ -79,8 +80,6 @@ import android.widget.Toast;
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity {
 	public static final String PREFS_NAME = "MyPrefsFile";
-	// private static final String UR_STRING =
-	// "http://172.31.201.109:8888/workspace/test";
 	private UserDao userHelper;
 	private AddLogDao addLogDao;
 	private TraitListDao traitListDao;
@@ -163,9 +162,17 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onDestroy() {
+		
 		super.onDestroy();
 		userHelper.closeDB();// release database resource
 		builder = null;
+		LogoutAsynTask lTask=new LogoutAsynTask();
+		SharedPreferences mySharedPreferences = getSharedPreferences(
+				PREFS_NAME, 0);
+		String username = mySharedPreferences.getString("username", "");
+		lTask.execute( Constant.urlString + "Logout.php",username);
+		System.out.println("MainActivity onDestroy()");
+		
 	}
 
 	@Override
@@ -306,7 +313,7 @@ public class MainActivity extends ActionBarActivity {
 			param.add(new BasicNameValuePair("username", username));
 			param.add(new BasicNameValuePair("password", password));
 			InputStream is = null;
-			String result = null;
+			String result = "";
 
 			try {
 				HttpEntity httpEntity = new UrlEncodedFormEntity(param, "utf-8");
@@ -321,7 +328,7 @@ public class MainActivity extends ActionBarActivity {
 					// System.out.println("***"+EntityUtils.toString(entity));
 
 				} else {
-					// tv.setText("request error");
+					System.out.println("request error"+httpResponse.getStatusLine());
 				}
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						is, "iso-8859-1"), 8);
@@ -411,22 +418,24 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			if (result == 1) {
-
 				User user = new User(usernameText.getText().toString(),
 						passwordText.getText().toString());
 				int loginResult = userHelper.check(user);
 				if (loginResult == -1) {
 					LoginOnline(user);
 				} else {
-					Intent intent = new Intent();
-					intent.putExtra("username", usernameText.getText()
-							.toString());
-					intent.putExtra("password", passwordText.getText()
-							.toString());
-					intent.setClass(MainActivity.this, HomeActivity.class);
-					startActivity(intent);
+					SharedPreferences mySharedPreferences = getSharedPreferences(
+							PREFS_NAME, Activity.MODE_PRIVATE);
+					SharedPreferences.Editor editor = mySharedPreferences
+							.edit();
+					editor.putString("username", usernameText.getText().toString());
+					editor.commit();
+					 Intent intent=new Intent();
+					 intent.putExtra("username",usernameText.getText().toString());
+					 intent.putExtra("password",passwordText.getText().toString());
+					 intent.setClass(MainActivity.this, HomeActivity.class);
+					 startActivity(intent);
 				}
-
 			} else if (result == 2) {
 				Toast toast = Toast.makeText(MainActivity.this,
 						"The user already login, can not login again",

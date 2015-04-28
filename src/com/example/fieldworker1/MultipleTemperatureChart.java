@@ -93,15 +93,9 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
 		x=dataChartService.getX();
 		
 	} catch (ParseException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-    //for (int i = 0; i < titles.length; i++) {
-   //   x.add(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
-   // }
     List<double[]> values = new ArrayList<double[]>();
-    //values=dataChartService.getValues();
-    //values.add(new double[] { 12.3, 12.5 });
     int[] colors = new int[] { Color.BLUE, Color.YELLOW };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT };
   
@@ -116,17 +110,11 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     for (int i = 0; i < lables.length; i++) {
 		lables[i]=i;
 	}
-//    for (int i = 0; i < x.size(); i++) {
-//    	System.out.println("x"+i+": "+x.get(0)[i]);
-//    	xAxis.add(lables);
-//	}
     xAxis.add(lables);
     
     for (int i = 0; i <values.get(1).length; i++) {
     	System.out.println("values"+i+":"+values.get(1)[i]);
 	}
-    
-    //XYMultipleSeriesDataset dataset = buildDataset(titles, xAxis, values);
   
    List<Double> getMax = new ArrayList<Double>();  
     for (int i = 0; i < values.size(); i++) {  
@@ -135,8 +123,6 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
         }  
 
     }  
-    System.out.println("!!!!"+getMax);
-    // 柱形图Y轴高度，在最大值基础上加2000,不会Y轴满屏  
     double ymaxValue = Collections.max(getMax) + 5; 
     XYMultipleSeriesDataset dataset = buildDataset(new String[] { traits.get(0) }, xAxis, yValues);
     yValues.clear();

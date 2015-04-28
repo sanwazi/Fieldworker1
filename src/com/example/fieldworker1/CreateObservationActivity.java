@@ -4,10 +4,8 @@ import java.text.SimpleDateFormat;
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.example.fieldworker1.R;
@@ -969,8 +967,7 @@ public class CreateObservationActivity extends Activity {
 					intent.putExtra("username", user.getUserName());
 					intent.putExtra("password", user.getPassword());
 					finish();
-					startActivity(intent);
-					
+					startActivity(intent);					
 				}
 			}
 		}

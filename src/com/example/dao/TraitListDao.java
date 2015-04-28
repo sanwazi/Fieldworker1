@@ -130,8 +130,9 @@ public class TraitListDao {
 		Integer nameVersion=cursor.getInt(4);
 		result.add(new TraitList(id, traitListName, username1, accessible,nameVersion));
 		}
-		db.close();
 		cursor.close();
+		db.close();
+		
 		return result;
     }
 	public void delete(String name) {
@@ -150,12 +151,16 @@ public class TraitListDao {
 		Cursor cursor = db.rawQuery(sqlString, null);
 		if (cursor.moveToNext()) {
 			name = cursor.getString(0);
-			db.close();
 			cursor.close();
+			db.close();
+			
 			return name;
 		} else
+		{
+			cursor.close();
 			db.close();
-		cursor.close();
+		
+		}
 		return null;
 	}
 
@@ -166,8 +171,9 @@ public class TraitListDao {
 				+ traitListName + "' AND username=" + "'" + username + "'";
 		Cursor cursor = db.rawQuery(sqlString, null);
 		int count = cursor.getCount();
-		db.close();
 		cursor.close();
+		db.close();
+		
 		if (count == 0)
 			return true;
 		else
@@ -184,8 +190,9 @@ public class TraitListDao {
 		String username = cursor.getString(2);
 		Integer accessible = cursor.getInt(3);
 		TraitList tList = new TraitList(id, name, username, accessible);
-		db.close();
 		cursor.close();
+		db.close();
+		
 		return tList;
 	}
 }

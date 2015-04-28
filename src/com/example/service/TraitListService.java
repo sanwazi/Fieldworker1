@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -64,5 +65,14 @@ public class TraitListService {
     	int traitID=traitDao.findIdByName(TraitName);
     	traitListContentDao.delete(traitListID, traitID);
     }
+	public void updateTraitList(TraitList tl, ArrayList<String> currentTraits) {
+		int traitListID=tl.getTraitListID();
+		traitListContentDao.deleteTraitListContent(traitListID);
+		for (int i = 0; i < currentTraits.size(); i++) {
+			int traitId=traitDao.findIdbyName(currentTraits.get(i));
+			traitListContentDao.insert(new TraitListContent(traitListID, traitId));
+		}
+		
+	}
     
 }

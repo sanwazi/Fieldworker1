@@ -3,6 +3,7 @@ package com.example.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -53,6 +54,23 @@ public class TraitListContentDao {
 		System.out.println(traits.size());
 		return traits;
 	}
+	public List<TraitListContent> getTraitContents(Integer traitListID)
+	{
+		SQLiteDatabase sdb=dbHelper.getReadableDatabase();
+		String sqlString="SELECT * FROM TraitListContent WHERE traitListID="+"'"+traitListID+"'";
+		List<TraitListContent> traits=new ArrayList<TraitListContent>();
+		Cursor cursor=sdb.rawQuery(sqlString, null);
+		System.out.println(cursor.getCount());
+		while (cursor.moveToNext()) {
+			Integer traitListID1=cursor.getInt(0);
+			Integer traitID=cursor.getInt(1);
+			traits.add(new TraitListContent(traitListID1,traitID));
+			
+		}
+		cursor.close();
+		sdb.close();
+		return traits;
+	}
 	public List<String> searchTraitNames(Integer traitListID) {
 		List<Trait> traits=new ArrayList<Trait>();
 		List<String> traitNames=new ArrayList<String>();
@@ -75,9 +93,21 @@ public class TraitListContentDao {
 		String sql="SELECT * FROM TraitListContent WHERE traitListID="+content.getTraitListID()+" AND traitID="+content.getTraitID();
 		Cursor cursor=db.rawQuery(sql, null);
 		if (cursor.moveToNext()) {
+			cursor.close();
+			db.close();
 			return true;//if exist ,return true
 		}
+		cursor.close();
+		db.close();
 		return false;
+		
+	}
+	public void deleteTraitListContent(int traitListId)
+	{
+		SQLiteDatabase db=dbHelper.getWritableDatabase();
+		String sqlString="DELETE FROM TraitListContent WHERE traitListID="+"'"+traitListId+"'";
+		db.execSQL(sqlString);
+		db.close();
 	}
 	
 }
