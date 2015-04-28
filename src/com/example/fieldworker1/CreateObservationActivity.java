@@ -114,6 +114,7 @@ public class CreateObservationActivity extends Activity {
 	private String[] values;
 	private int[] editable;
 	private Integer observationID;
+	private Integer relation_id;
 	private Date deletingDeadline;
 	private String commentStr;
 
@@ -189,6 +190,7 @@ public class CreateObservationActivity extends Activity {
 		commentStr = "";
 		traits = new ArrayList<Trait>();
 		observationID = UUID.randomUUID().hashCode();
+		relation_id = UUID.randomUUID().hashCode();
 		observation = null;
 
 		datePicker.setOnClickListener(new OnClickListener() {
@@ -953,7 +955,7 @@ public class CreateObservationActivity extends Activity {
 
 				AddLog addObserConLog;
 				for (int i = 0; i < traitNames.length; i++) {
-					ObserContent obserContent = new ObserContent(observationID,
+					ObserContent obserContent = new ObserContent(relation_id, observationID,
 							traitDao.findIdByName(traitNames[i]), values[i],
 							editable[i]);
 					obserContentDao.addObserContent(obserContent);

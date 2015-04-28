@@ -2,6 +2,7 @@ package com.example.domain;
 
 public class ObserContent {
 
+	private int relation_id;
 	private int observationID;
 	private int traitID;
 	private String traitValue;
@@ -11,7 +12,8 @@ public class ObserContent {
 		super();
 	}
 
-	public ObserContent(int oID, int tID, String tv, int editable) {
+	public ObserContent(int relationID,int oID, int tID, String tv, int editable) {
+		relation_id = relationID;
 		observationID = oID;
 		traitID = tID;
 		traitValue = tv;
@@ -52,7 +54,7 @@ public class ObserContent {
 
 	@Override
 	public String toString() {
-		return "observationContent [observationID=" + observationID
+		return "observationContent [relation_id=" + relation_id +", observationID=" + observationID
 				+ ", traitID=" + traitID + ", traitValue=" + traitValue
 				+ ", editable=" + editable + "]";
 	}

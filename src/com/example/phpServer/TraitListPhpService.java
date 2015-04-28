@@ -54,11 +54,7 @@ import android.widget.Toast;
 public class TraitListPhpService {
 	private Context context;
 	private String username;
-<<<<<<< HEAD
-	//private static final String UR_STRING = "http://172.31.201.109:8888";
-=======
 	
->>>>>>> Qiu
 
 	public TraitListPhpService(Context context, String username) {
 		super();
@@ -150,11 +146,7 @@ public class TraitListPhpService {
 
 	public void findAll(ListViewSubClass mListView, Context context,
 			List<HashMap<String, String>> list) throws InterruptedException {
-<<<<<<< HEAD
-		String url = Constant.urlString + "server.php/";
-=======
 		String url = Constant.urlString + "server.php";
->>>>>>> Qiu
 		FindAllAsyncTask findAllAsyncTask = new FindAllAsyncTask(mListView,
 				context, list);
 		findAllAsyncTask.execute(url);
@@ -175,12 +167,12 @@ public class TraitListPhpService {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 
-<<<<<<< HEAD
-			HttpPost httpRequest = new HttpPost(Constant.urlString
-					+ "TraitListService.php");
-=======
+
+//			HttpPost httpRequest = new HttpPost(Constant.urlString
+//					+ "TraitListService.php");
+
 			HttpPost httpRequest = new HttpPost(params[0]);
->>>>>>> Qiu
+
 			TraitDao traitDao = new TraitDao(context);
 			PredefineValueDao preDao=new PredefineValueDao(context);
 			
@@ -366,10 +358,7 @@ public class TraitListPhpService {
 		@Override
 		protected String doInBackground(String... params) {
 			String traitListName = params[0];
-<<<<<<< HEAD
-			// System.out.println("^^^"+traitListName);
-=======
->>>>>>> Qiu
+
 			HttpPost httpRequest = new HttpPost(Constant.urlString
 					+ "DeleteTraitList.php");
 			List<NameValuePair> param = new ArrayList<NameValuePair>();

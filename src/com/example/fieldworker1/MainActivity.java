@@ -733,6 +733,7 @@ public class MainActivity extends ActionBarActivity {
 							for (int i = 0; i < observationContents.length(); i++) {
 								object = observationContents.getJSONObject(i);
 								obserContent = new ObserContent(object
+										.getInt("relation_id"),object
 										.getInt("observationID"), object
 										.getInt("traitID"), object
 										.getString("traitValue"), object

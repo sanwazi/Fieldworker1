@@ -110,10 +110,10 @@ public class ObserContentDao {
 		db = helper.getWritableDatabase();
 		Cursor cursor = db.rawQuery("SELECT * FROM ObserContent ", null);
 		while (cursor.moveToNext()) {
-			if (cursor.getInt(0) == observationID
-					&& cursor.getInt(1) == traitID)
-				return new ObserContent(cursor.getInt(0), cursor.getInt(1),
-						cursor.getString(2), cursor.getInt(3));
+			if (cursor.getInt(1) == observationID
+					&& cursor.getInt(2) == traitID)
+				return new ObserContent(cursor.getInt(0), cursor.getInt(1),cursor.getInt(2),
+						cursor.getString(3), cursor.getInt(4));
 		}
 		cursor.close();
 		closeDB();
