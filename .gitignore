@@ -1,4 +1,9 @@
 *.class
+*.apk
+*.ap_
+*.dex
+bin/
+gen/
 # OS generated files #
 ######################
 .DS_Store
