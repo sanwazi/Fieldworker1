@@ -52,6 +52,15 @@ public class ObserContent {
 		this.traitValue = traitValue;
 	}
 
+	
+	public int getRelation_id() {
+		return relation_id;
+	}
+
+	public void setRelation_id(int relation_id) {
+		this.relation_id = relation_id;
+	}
+
 	@Override
 	public String toString() {
 		return "observationContent [relation_id=" + relation_id +", observationID=" + observationID

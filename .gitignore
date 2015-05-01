@@ -100,3 +100,7 @@ bin/classes/com/example/phpServer/TraitListPhpService$FindAllAsyncTask.class
 bin/Fieldworker1.apk
 
 bin/resources.ap_
+
+*.class
+
+*.class

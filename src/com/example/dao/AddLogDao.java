@@ -178,7 +178,6 @@ public class AddLogDao {
 		while (c.moveToNext()) {
 			map = new HashMap<String, String>();
 			observation = observationDao.findObervationById(c.getInt(0));
-			System.out.println("observation: " + observation);
 			map.put("observationID",
 					String.valueOf(observation.getObservationID()) );
 			map.put("deviceId", deviceId);
@@ -213,6 +212,7 @@ public class AddLogDao {
 			map = new HashMap<String, String>();
 			obserContent = obserContentDao.findObserContentByMultiID(
 					c.getInt(2), c.getInt(3));
+			map.put("relation_id", String.valueOf(obserContent.getRelation_id()));
 			map.put("observationID",
 					String.valueOf(obserContent.getObservationID()));
 			map.put("traitID", String.valueOf(obserContent.getTraitID()));

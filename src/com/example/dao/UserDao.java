@@ -31,7 +31,6 @@ public class UserDao {
 
 		}
 		c.close();
-		closeDB();
 		return "";
 	}
 	public void add(User u) {
@@ -43,7 +42,6 @@ public class UserDao {
 			db.setTransactionSuccessful();
 		} finally {
 			db.endTransaction();
-			db.close();
 		}
 	}
 
@@ -52,13 +50,11 @@ public class UserDao {
 		while( c.moveToNext() ){
 			if( un.equals(c.getString(0))){
 				c.close();
-				closeDB();
 				return true;
 			}
 				
 		}
 		c.close();
-		closeDB();
 		return false;
 	}
 	
@@ -70,7 +66,6 @@ public class UserDao {
 			result += c.getString(c.getColumnIndex("password")) + "\t" + "\n";
 		}
 		c.close();
-		closeDB();
 		return result;
 	}
 

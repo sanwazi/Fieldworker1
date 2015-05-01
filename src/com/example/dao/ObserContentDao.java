@@ -52,9 +52,9 @@ public class ObserContentDao {
 	public void addObserContent(ObserContent obserContent) {
 		db = helper.getWritableDatabase();
 		db.execSQL(
-				"INSERT INTO ObserContent(observationID,traitID,traitValue,editable)"
-						+ " VALUES(?,?,?,?)",
-				new Object[] { obserContent.getObservationID(),
+				"INSERT INTO ObserContent(relation_id,observationID,traitID,traitValue,editable)"
+						+ " VALUES(?,?,?,?,?)",
+				new Object[] { obserContent.getRelation_id(),obserContent.getObservationID(),
 						obserContent.getTraitID(),
 						obserContent.getTraitValue(),
 						obserContent.getEditable() });
@@ -68,7 +68,7 @@ public class ObserContentDao {
 		Cursor cursor = db.rawQuery(sqlString, null);
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		while (cursor.moveToNext()) {
-			map.put(cursor.getInt(1), cursor.getString(2));
+			map.put(cursor.getInt(2), cursor.getString(3));
 		}
 
 		cursor.close();
@@ -83,7 +83,7 @@ public class ObserContentDao {
 		Cursor cursor = db.rawQuery(sqlString, null);
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		while (cursor.moveToNext()) {
-			map.put(cursor.getInt(1), String.valueOf(cursor.getInt(3)));
+			map.put(cursor.getInt(2), String.valueOf(cursor.getInt(4)));
 		}
 
 		cursor.close();

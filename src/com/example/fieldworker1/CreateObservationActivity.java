@@ -114,7 +114,6 @@ public class CreateObservationActivity extends Activity {
 	private String[] values;
 	private int[] editable;
 	private Integer observationID;
-	private Integer relation_id;
 	private Date deletingDeadline;
 	private String commentStr;
 
@@ -190,7 +189,6 @@ public class CreateObservationActivity extends Activity {
 		commentStr = "";
 		traits = new ArrayList<Trait>();
 		observationID = UUID.randomUUID().hashCode();
-		relation_id = UUID.randomUUID().hashCode();
 		observation = null;
 
 		datePicker.setOnClickListener(new OnClickListener() {
@@ -797,7 +795,7 @@ public class CreateObservationActivity extends Activity {
 			// TODO Auto-generated method stub
 			new AlertDialog.Builder(CreateObservationActivity.this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("Worning")
+					.setTitle("Warning")
 					.setMessage("Are you sure to delete this image?")
 					.setPositiveButton("YES",
 							new DialogInterface.OnClickListener() {
@@ -955,7 +953,7 @@ public class CreateObservationActivity extends Activity {
 
 				AddLog addObserConLog;
 				for (int i = 0; i < traitNames.length; i++) {
-					ObserContent obserContent = new ObserContent(relation_id, observationID,
+					ObserContent obserContent = new ObserContent(UUID.randomUUID().hashCode(), observationID,
 							traitDao.findIdByName(traitNames[i]), values[i],
 							editable[i]);
 					obserContentDao.addObserContent(obserContent);

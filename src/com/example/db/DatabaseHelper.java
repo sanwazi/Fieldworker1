@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-	private static final int VERSION = 1;
+	private static final int VERSION = 32;
 	static String name = "FWO";
 
 	public DatabaseHelper(Context context, CursorFactory factory, int version) {
@@ -28,10 +28,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		System.out.println("create a Database");
-		db.execSQL("create table ObserContent(observationID INTEGER,traitID INTEGER,traitValue VARCHAR(225),editable INTEGER,PRIMARY KEY(observationID,traitID))");
+		db.execSQL("create table ObserContent(relation_id INTEGER PRIMARY KEY,observationID INTEGER,traitID INTEGER,traitValue VARCHAR(225),editable INTEGER)");
 		db.execSQL("create table Observation(observationID INTEGER PRIMARY KEY, observationName VARCHAR(225) UNIQUE,username VARCHAR(45), traitListID INTEGER, createTime DATETIME NOT NULL default current_timestamp,endTime VARCHAR(45) ,photoPath VARCHAR(225), paintingPath VARCHAR(225), comment VARCHAR(225) )");
 		db.execSQL("create table PredefineVal(predefineValID INTEGER PRIMARY KEY,traitID INTEGER, value VARCHAR(128))");
-		db.execSQL("create table Trait(traitID INTEGER PRIMARY KEY,traitName VARCHAR(128) UNIQUE,widgetName VARCHAR(128),unit VARCHAR(45),accessible INTEGER DEFAULT 1)");
+		db.execSQL("create table Trait(traitID INTEGER PRIMARY KEY,traitName VARCHAR(128),widgetName VARCHAR(128),username VARCHAR(45),unit VARCHAR(45),accessible INTEGER DEFAULT 1,nameVersion INTEGER DEFAULT 0)");
 		db.execSQL("create table TraitList(traitListID INTEGER PRIMARY KEY,traitListName VARCHAR(128),username VARCHAR(45),accessible INTEGER DEFAULT 1, nameVersion INTEGER DEFAULT 0)");
 		db.execSQL("create table TraitListContent(traitListID INTEGER,traitID INTEGER, PRIMARY KEY(traitListID,traitID))");
 		db.execSQL("create table User(username VARCHAR(45),password VARCHAR(45), PRIMARY KEY(username))");
