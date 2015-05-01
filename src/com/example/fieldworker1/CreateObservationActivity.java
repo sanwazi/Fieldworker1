@@ -183,6 +183,7 @@ public class CreateObservationActivity extends Activity {
 
 		observationName = "";
 		drawingPath = "";
+		deletingDeadline = null;
 		photoPath = new ArrayList<String>();
 		max = "";
 		commentStr = "";
@@ -794,7 +795,7 @@ public class CreateObservationActivity extends Activity {
 			// TODO Auto-generated method stub
 			new AlertDialog.Builder(CreateObservationActivity.this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("Worning")
+					.setTitle("Warning")
 					.setMessage("Are you sure to delete this image?")
 					.setPositiveButton("YES",
 							new DialogInterface.OnClickListener() {
@@ -952,7 +953,7 @@ public class CreateObservationActivity extends Activity {
 
 				AddLog addObserConLog;
 				for (int i = 0; i < traitNames.length; i++) {
-					ObserContent obserContent = new ObserContent(observationID,
+					ObserContent obserContent = new ObserContent(UUID.randomUUID().hashCode(), observationID,
 							traitDao.findIdByName(traitNames[i]), values[i],
 							editable[i]);
 					obserContentDao.addObserContent(obserContent);

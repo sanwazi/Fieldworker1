@@ -60,7 +60,7 @@ public class DeleteLogDao {
 	    db.close();
 	}
 
-	public ArrayList<String> deleteUser() {
+	public ArrayList<HashMap<String,String>> deleteUser() {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		ArrayList result = new ArrayList<HashMap<String,String>>();
 		Cursor cursor = db
@@ -79,7 +79,7 @@ public class DeleteLogDao {
 		return result;
 	}
 	
-	public ArrayList<String> deleteObservation() {
+	public ArrayList<HashMap<String,String>> deleteObservation() {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		ArrayList result = new ArrayList<HashMap<String,String>>();
 		Cursor cursor = db
@@ -98,7 +98,7 @@ public class DeleteLogDao {
 		return result;
 	}
 	
-	public ArrayList<String> deleteObserContent() {
+	public ArrayList<HashMap<String,String>> deleteObserContent() {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		ArrayList result = new ArrayList<HashMap<String,String>>();
 		Cursor cursor = db

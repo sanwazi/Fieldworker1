@@ -42,7 +42,7 @@ public class Synchronization {
 		DeleteLogDao deleteLogDao = new DeleteLogDao(context);
 
 		// synchronize delete user
-		ArrayList<String> deleteUser = deleteLogDao.deleteUser();
+		ArrayList<HashMap<String, String>> deleteUser = deleteLogDao.deleteUser();
 		if (deleteUser.size() != 0) {
 			prgDialog.show();
 			Gson gson = new GsonBuilder().create();
@@ -80,7 +80,7 @@ public class Synchronization {
 		}
 
 		// synchronize delete Observation
-		ArrayList<String> deleteObservation = deleteLogDao.deleteObservation();
+		ArrayList<HashMap<String, String>> deleteObservation = deleteLogDao.deleteObservation();
 		if (deleteObservation.size() != 0) {
 			prgDialog.show();
 			Gson gson = new GsonBuilder().create();
@@ -119,7 +119,7 @@ public class Synchronization {
 		}
 
 		// synchronize delete ObserContent
-		ArrayList<String> deleteObserContent = deleteLogDao
+		ArrayList<HashMap<String, String>> deleteObserContent = deleteLogDao
 				.deleteObserContent();
 		if (deleteObserContent.size() != 0) {
 			prgDialog.show();
