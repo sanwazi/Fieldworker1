@@ -153,5 +153,12 @@
             </TableLayout>
         </LinearLayout>
     </ScrollView>
-
+    <Button
+            android:id="@+id/submit"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_x="189dp"
+            android:layout_y="297dp"
+            android:text="submit"
+            android:textSize="16sp" />
 </LinearLayout>

@@ -14,6 +14,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,7 @@ public class AddTraitActivity extends Activity {
 	private Button deleteButton;
 	private Button submitButton;
 	private int editTextCount;
+	private String username;
 	@Required(order = 1)
 	private EditText traitNamEditText;
 	private EditText unitEditText;
@@ -52,6 +54,10 @@ public class AddTraitActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		SharedPreferences mySharedPreferences = getSharedPreferences(
+				"MyPrefsFile", 0);
+		username = mySharedPreferences.getString("username", "");
+		
 		widgetName = "Spinner";
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_trait);
@@ -219,11 +225,11 @@ public class AddTraitActivity extends Activity {
 			}
 			Trait t = null;
 			if (!unit.equals("")) {
-				t = new Trait(traitName, widgetName, unit);
+				t = new Trait(traitName, widgetName, unit,username,1,0);
 			} else {
-				t = new Trait(traitName, widgetName, null);
+				t = new Trait(traitName, widgetName, null,username,1,0);
 			}
-			traitDao.insert(t);
+			traitDao.insert(t,username);
 			if (widgetName.equals("CheckBox") || widgetName.equals("Spinner")
 					|| widgetName.equals("RadioButton")) {
 				TableRow tableRow2 = (TableRow) tableLayout.getChildAt(5);

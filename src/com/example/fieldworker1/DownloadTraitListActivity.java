@@ -225,8 +225,13 @@ public class DownloadTraitListActivity extends Activity {
 				jArray = new JSONArray(result);
 				if (jArray.length()>0) {
 					JSONArray traits=jArray.getJSONArray(0);
+					
 					JSONArray predefineValues=jArray.getJSONArray(1);
 					JSONArray traitListContent=jArray.getJSONArray(2);
+					
+					List<Trait> traits2=new ArrayList<Trait>();
+					List<TraitListContent> traitListContent2=new ArrayList<TraitListContent>();
+					List<PredefineValue> predefineValue2=new ArrayList<PredefineValue>();
 					for(TraitList tl:selectedTLists)
 					{
 						tl.setUsername(username);
@@ -257,9 +262,7 @@ public class DownloadTraitListActivity extends Activity {
 						  String widgetName=trait.getString("widgetName");
 						  String unit=trait.getString("unit");
 						  Integer accessible=trait.getInt("access");						  
-						  traitDao.insert(new Trait(traitID, traitName, widgetName, unit,accessible));
-						  
-						  
+						  traitDao.insert(new Trait(traitID, traitName, widgetName, unit,accessible),username);
 						}
 					}
 					if (predefineValues.length()>0) {

@@ -505,7 +505,7 @@ public class ShowTraitList extends Activity {
 
 	private void addTraitToTraitList() {
 		final List<String> checkedItems = new ArrayList<String>();
-		List<String> nameList = traitDao.findAllTraitNames();
+		List<String> nameList = traitDao.findAllTraitNames(username);
 		System.out.println("after click add button : " + currentTraits);
 		nameList.removeAll(currentTraits);
 		final String[] traitNames = new String[nameList.size()];

@@ -216,9 +216,12 @@ public class HomeActivity extends Activity {
 					startActivity(intent);
 
 				} else if (position == 3) {
-				  
+					Intent intent = new Intent();
+				
+					intent.setClass(HomeActivity.this, DataAnalysisAcitivity.class);
+					startActivity(intent);
 				   
-					intentAnalyseObser.putExtra("password", user.getPassword());
+					/*intentAnalyseObser.putExtra("password", user.getPassword());
 					intentAnalyseObser.putExtra("username", user.getUserName());
 
 					obserSelected = new ArrayList<String>();
@@ -363,7 +366,7 @@ public class HomeActivity extends Activity {
 								}
 							});
 					builder.setNegativeButton("Cancel", null);
-					builder.create().show();
+					builder.create().show();*/
 				} else if (position == 5) {
 					Intent intent=new Intent();
 					intent.setClass(HomeActivity.this, DownloadTraitListActivity.class);

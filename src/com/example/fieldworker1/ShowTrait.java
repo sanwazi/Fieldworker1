@@ -24,8 +24,8 @@ public class ShowTrait extends Activity {
 		traitDao=new TraitDao(ShowTrait.this);
 		predefineValueDao=new PredefineValueDao(ShowTrait.this);
 		Intent intent=getIntent();
-		traitName=intent.getStringExtra("traitName");
-		Trait t=traitDao.searchByTraitName(traitName);
+		
+		Trait t=(Trait) intent.getSerializableExtra("clickTrait");
 		displayTraits=new DisplayTraits(t, table, ShowTrait.this);
 		if (t.getWidgetName().equals("Spinner")) {
 			displayTraits.appendSpinner(t.getTraitName(),predefineValueDao.search1(t.getTraitID()), t.getUnit());

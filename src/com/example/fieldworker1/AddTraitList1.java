@@ -78,7 +78,7 @@ public class AddTraitList1 extends Activity {
 				
 				@Override
 				public void onClick(View v) {						
-					List<String> nameList= traitDao.findAllTraitNames();   				
+					List<String> nameList= traitDao.findAllTraitNames(username);   				
 						final String[] traitNames=new String[nameList.size()];
 				        for (int i = 0; i < traitNames.length; i++) {
 							traitNames[i]=nameList.get(i);

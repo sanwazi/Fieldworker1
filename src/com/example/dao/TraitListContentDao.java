@@ -12,6 +12,8 @@ import com.example.db.DatabaseHelper;
 import com.example.domain.Trait;
 import com.example.domain.TraitListContent;
 
+import eu.inmite.android.lib.validations.form.annotations.Custom;
+
 public class TraitListContentDao {
 	private DatabaseHelper dbHelper; 
 	public TraitListContentDao(Context context)
@@ -34,7 +36,7 @@ public class TraitListContentDao {
 	public List<Trait> searchTraitsByTraitListID(Integer traitListID)
 	{
 		SQLiteDatabase sdb=dbHelper.getReadableDatabase();
-		String sqlString="SELECT Trait.traitID, Trait.traitName, Trait.widgetName, Trait.unit"+
+		String sqlString="SELECT Trait.traitID, Trait.traitName, Trait.widgetName, Trait.unit,Trait.username, Trait.nameVersion"+
 		                 " FROM TraitListContent,Trait"+
 				         " WHERE TraitListContent.traitListID="+"'"+traitListID+"'"+" AND TraitListContent.traitID=Trait.traitID";
 		List<Trait> traits=new ArrayList<Trait>();
@@ -45,8 +47,9 @@ public class TraitListContentDao {
 			String traitName=cursor.getString(1);
 			String widgetString=cursor.getString(2);
 			String unit=cursor.getString(3);
-			System.out.println(traitName);
-			traits.add(new Trait(traitID,traitName,widgetString,unit));
+			String username=cursor.getString(4);
+			int nameVersion=cursor.getInt(5);
+			traits.add(new Trait(traitID, traitName, widgetString, unit, username, nameVersion));
 			
 		}
 		cursor.close();

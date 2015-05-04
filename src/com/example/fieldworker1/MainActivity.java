@@ -162,17 +162,17 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onDestroy() {
-		
+
 		super.onDestroy();
 		userHelper.closeDB();// release database resource
 		builder = null;
-		LogoutAsynTask lTask=new LogoutAsynTask();
+		LogoutAsynTask lTask = new LogoutAsynTask();
 		SharedPreferences mySharedPreferences = getSharedPreferences(
 				PREFS_NAME, 0);
 		String username = mySharedPreferences.getString("username", "");
-		lTask.execute( Constant.urlString + "Logout.php",username);
+		lTask.execute(Constant.urlString + "Logout.php", username);
 		System.out.println("MainActivity onDestroy()");
-		
+
 	}
 
 	@Override
@@ -328,7 +328,8 @@ public class MainActivity extends ActionBarActivity {
 					// System.out.println("***"+EntityUtils.toString(entity));
 
 				} else {
-					System.out.println("request error"+httpResponse.getStatusLine());
+					System.out.println("request error"
+							+ httpResponse.getStatusLine());
 				}
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						is, "iso-8859-1"), 8);
@@ -428,13 +429,16 @@ public class MainActivity extends ActionBarActivity {
 							PREFS_NAME, Activity.MODE_PRIVATE);
 					SharedPreferences.Editor editor = mySharedPreferences
 							.edit();
-					editor.putString("username", usernameText.getText().toString());
+					editor.putString("username", usernameText.getText()
+							.toString());
 					editor.commit();
-					 Intent intent=new Intent();
-					 intent.putExtra("username",usernameText.getText().toString());
-					 intent.putExtra("password",passwordText.getText().toString());
-					 intent.setClass(MainActivity.this, HomeActivity.class);
-					 startActivity(intent);
+					Intent intent = new Intent();
+					intent.putExtra("username", usernameText.getText()
+							.toString());
+					intent.putExtra("password", passwordText.getText()
+							.toString());
+					intent.setClass(MainActivity.this, HomeActivity.class);
+					startActivity(intent);
 				}
 			} else if (result == 2) {
 				Toast toast = Toast.makeText(MainActivity.this,
@@ -687,7 +691,7 @@ public class MainActivity extends ActionBarActivity {
 							TraitList traitList;
 							for (int i = 0; i < traitLists.length(); i++) {
 								object = traitLists.getJSONObject(i);
-								traitList = new TraitList( object
+								traitList = new TraitList(object
 										.getInt("traitListID"), object
 										.getString("traitListName"), object
 										.getString("username"), object
@@ -702,8 +706,9 @@ public class MainActivity extends ActionBarActivity {
 								trait = new Trait(object.getInt("traitID"),
 										object.getString("traitName"), object
 												.getString("widgetName"),
-										object.getString("unit"));
-								traitDao.insert(trait);
+										object.getString("unit"), usernameText
+												.getText().toString(), 0);
+								traitDao.insert(trait,usernameText.getText().toString());
 							}
 
 							// download trait List content
@@ -730,10 +735,12 @@ public class MainActivity extends ActionBarActivity {
 
 							// download observation content
 							ObserContent obserContent;
+							System.out.println("?????ObserContent: " + observationContents);
 							for (int i = 0; i < observationContents.length(); i++) {
 								object = observationContents.getJSONObject(i);
+								System.out.println("!!!!!!!ObserContent: " + object);
 								obserContent = new ObserContent(object
-										.getInt("relation_id"),object
+										.getInt("relation_id"), object
 										.getInt("observationID"), object
 										.getInt("traitID"), object
 										.getString("traitValue"), object

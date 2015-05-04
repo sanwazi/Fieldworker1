@@ -90,6 +90,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     List<Date[]> x = new ArrayList<Date[]>();
     
     try {
+    	//if there is only one trait, x size=1,else x size=2
 		x=dataChartService.getX();
 		
 	} catch (ParseException e) {
@@ -100,7 +101,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT };
   
     
-   
+   //if there is one trait, values size =1,else values size=2
     values=dataChartService.getValues();
     List<double[]> yValues=new ArrayList<double[]>();
     yValues.add(values.get(0));
@@ -112,9 +113,9 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
 	}
     xAxis.add(lables);
     
-    for (int i = 0; i <values.get(1).length; i++) {
-    	System.out.println("values"+i+":"+values.get(0)[i]);
-	}
+//    for (int i = 0; i <values.get(1).length; i++) {
+//    	System.out.println("values"+i+":"+values.get(0)[i]);
+//	}
   
    List<Double> getMax = new ArrayList<Double>();  
     for (int i = 0; i < values.size(); i++) {  
@@ -127,9 +128,12 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     double ymaxValue = Collections.max(getMax) + 5; 
     XYMultipleSeriesDataset dataset = buildDataset(new String[] { traits.get(0) }, xAxis, yValues);
     yValues.clear();
+    if(traits.size()>1)
+    {
     yValues.add(values.get(1));
     
     addXYSeries(dataset, new String[] { traits.get(1) }, xAxis, yValues, 1);
+    }
     
     XYMultipleSeriesRenderer render=getDemoRenderer(x,"", "Create Time", traits, 0.3, 4.3, 0, ymaxValue, Color.LTGRAY, Color.LTGRAY);
     Intent intent=new Intent();
@@ -185,6 +189,9 @@ private XYMultipleSeriesRenderer getDemoRenderer(List<Date[]> x,String title, St
         r1.setFillPoints(true);
         r1.setLineWidth(2.5f);
         renderer.addSeriesRenderer(r1);
+        renderer.setYTitle(traits.get(1), 1);
+        renderer.setYAxisAlign(Align.RIGHT, 1);  
+        renderer.setYLabelsAlign(Align.LEFT, 1);
 	}
    
     renderer.setXLabels(0);
@@ -206,12 +213,11 @@ private XYMultipleSeriesRenderer getDemoRenderer(List<Date[]> x,String title, St
     renderer.setYAxisMax(yMax, 1);
     renderer.setAxesColor(axesColor);
     renderer.setLabelsColor(labelsColor);
+    renderer.setBarSpacing(1);
     
-    renderer.setYTitle(traits.get(1), 1); 
     renderer.setZoomButtonsVisible(true);
     renderer.setYLabelsPadding(-25);  
-    renderer.setYAxisAlign(Align.RIGHT, 1);  
-    renderer.setYLabelsAlign(Align.LEFT, 1);
+    
     renderer.setShowGrid(true);  
     renderer.setZoomButtonsVisible(true); 
     return renderer;

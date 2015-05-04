@@ -1,10 +1,11 @@
 package com.example.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import android.R.integer;
 
-public class Trait {
+public class Trait implements Serializable {
 
 	private int traitID;
 	public Trait(int traitID, String traitName, String widgetName, String unit,
@@ -33,20 +34,23 @@ public class Trait {
 
 	public Trait(int traitID, String tn, String wn, String unit,String username,int nameVersion) {
 		this.traitID = traitID;
-		traitName = tn;
-		widgetName = wn;
+		this.traitName = tn;
+		this.widgetName = wn;
 		this.unit = unit;
-		this.nameVersion=nameVersion;
 		this.username=username;
+		this.nameVersion=nameVersion;
 	}
 
-	public Trait(String traitName, String widgetName, String unit) {
+	public Trait(String traitName, String widgetName, String unit,String username,int accessible,int nameVersion) {
 		super();
 		Integer traitID = UUID.randomUUID().hashCode();
 		this.traitID = traitID;
 		this.traitName = traitName;
 		this.widgetName = widgetName;
 		this.unit = unit;
+		this.username=username;
+		this.accessible=accessible;
+		this.nameVersion=nameVersion;
 	}
 
 	public Trait() {
@@ -83,6 +87,22 @@ public class Trait {
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public int getNameVersion() {
+		return nameVersion;
+	}
+
+	public void setNameVersion(int nameVersion) {
+		this.nameVersion = nameVersion;
 	}
 
 }

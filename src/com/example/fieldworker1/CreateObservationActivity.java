@@ -157,7 +157,7 @@ public class CreateObservationActivity extends Activity {
 		deleteLogDao = new DeleteLogDao(this);
 
 		// construct traitlist selection
-		List<TraitList> traitLists = traitListDao.findAll();
+		List<TraitList> traitLists = traitListDao.findByUsername(user.getUserName());
 		List<String> selections = new ArrayList<String>();
 		for (Iterator<TraitList> iterator = traitLists.iterator(); iterator
 				.hasNext();) {

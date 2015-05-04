@@ -6,23 +6,30 @@ import java.util.List;
 
 import com.example.dao.TraitDao;
 import com.example.domain.Trait;
+import com.example.domain.TraitList;
 import com.example.fieldworker1.ListViewSubClass.OnDeleteListener;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class TraitActivity extends ListActivity {
 private static final int AddTrait=1;
 private static final String PREFS_NAME = "MyPrefsFile";
 	private TraitDao traitDao;
 	private ListViewSubClass mListView;
-	private List<HashMap<String, String>> list;
 	private MyAdapter listAdapter;
 	private String username;
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,51 +69,78 @@ private static final String PREFS_NAME = "MyPrefsFile";
 
 	private void showTraits() {
 		System.out.println("start showTraits");
-		// TODO Auto-generated method stub
-		list = new ArrayList<HashMap<String, String>>();
-		List<Trait> traits=traitDao.findAllForOne(username);
-		for (java.util.Iterator<Trait> iterator = traits.iterator(); iterator.hasNext();)
-		{
-			Trait t = (Trait) iterator.next();
-			System.out.println(t.toString());
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("trait_name", t.getTraitName());
-	//		map.put("traitList_id", t.getTraitListID()+"");
-			list.add(map);
-		}
-		listAdapter=new MyAdapter(this, list,
-				             R.layout.trait_item, new String[]{"trait_name"}, 
-				             new int[]{R.id.trait_name});
+		
+		final ArrayList<Trait> traits=traitDao.findAllForOne(username);
+		final MyCustomAdapter dataAdapter=new MyCustomAdapter(this,  R.layout.trait_item, traits);
+		
 		
 		//setListAdapter(listAdapter);
-		mListView.setAdapter(listAdapter);
+		mListView.setAdapter(dataAdapter);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Trait trait=(Trait) arg0.getItemAtPosition(arg2);
+				Intent intent=new Intent();
+				Bundle mBundle=new Bundle();
+				mBundle.putSerializable("clickTrait",trait);
+				intent.putExtras(mBundle);
+				intent.setClass(TraitActivity.this, ShowTrait.class);
+				TraitActivity.this.startActivity(intent);
+				TraitActivity.this.finish();
+				
+			}
+		});
 		mListView.setOnDeleteListener(new OnDeleteListener(){
 
 			@Override
 			public void onDelete(int index) {
-				// TODO Auto-generated method stub
-		
 			
-			 traitDao.delete(list.get(index).get("trait_name"));
-			 System.out.println(list.get(index).get("trait_name"));
-			 list.remove(index);
-			 listAdapter.notifyDataSetChanged();
+			 traitDao.delete(traits.get(index),username);
+			 traits.remove(index);
+			 dataAdapter.notifyDataSetChanged();
 			}
 			
 		});
 		
 	}
 
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
-		super.onListItemClick(l, v, position, id);
-		System.out.println("click"+position);
-		Intent intent=new Intent();
-		intent.putExtra("traitName", list.get(position).get("trait_name"));
-		intent.setClass(TraitActivity.this, ShowTrait.class);
-		TraitActivity.this.startActivity(intent);
-		//finish();
-		
+	
+	private class MyCustomAdapter extends ArrayAdapter<Trait> {
+
+		public MyCustomAdapter(Context context, int textViewResourceId,
+				ArrayList<Trait> lists) {
+			super(context, textViewResourceId, lists);
+		}
+
+		private class ViewHolder {
+			TextView traitName;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = null;
+			if (convertView == null) {
+				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = vi.inflate(R.layout.trait_item, null);
+				holder = new ViewHolder();
+				holder.traitName = (TextView) convertView
+						.findViewById(R.id.trait_name);
+				convertView.setTag(holder);
+
+			} else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+			Trait t=getItem(position);
+			if (t.getNameVersion() == 0) {
+				holder.traitName.setText(t.getTraitName());
+			} else {
+				holder.traitName.setText(t.getTraitName() + "_"
+						+ t.getNameVersion());
+			}
+			return convertView;
+		}
 	}
 	
 	

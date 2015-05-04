@@ -28,6 +28,7 @@ public class DataChart extends Activity {
 		observationNames=intent.getStringArrayListExtra("observationName");
 		System.out.println("DataChart observationNames size:"+observationNames.size());
 		observationIDs=intent.getIntegerArrayListExtra("observationID");
+		System.out.println(observationIDs+"$$$$");
 //		observationIDs=new ArrayList<Integer>();
 //		for (int i = 0; i < observationNames.size(); i++) {
 //			observationIDs.add(oDao.findIdByName(observationNames.get(i)));
@@ -43,7 +44,7 @@ public class DataChart extends Activity {
 		for (int i=0;i<observationIDs.size();i++) {
 			observationIDs.set(i, observations.get(i).getObservationID());
 		}
-		System.out.println(observationIDs+"$$$$");
+		
 		mChart=new MultipleTemperatureChart(traitName, observationIDs, chartType,DataChart.this);
 		Intent intent2=new Intent();
 		intent2=mChart.execute(DataChart.this);

@@ -95,9 +95,9 @@ public class ExportExcel {
 		int row = 5;
 
 		while (cur.moveToNext()) {
-			records[row][0] = findNameById(Integer.parseInt(cur.getString(1)));
-			records[row][1] = cur.getString(2).replace(",", "");
-			if (cur.getString(3).equals("1"))
+			records[row][0] = findNameById(Integer.parseInt(cur.getString(2)));
+			records[row][1] = cur.getString(3).replace(",", "");
+			if (cur.getString(4).equals("1"))
 				records[row][2] = "True";
 			else
 				records[row][2] = "False";

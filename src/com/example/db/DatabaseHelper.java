@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-	private static final int VERSION = 32;
+	private static final int VERSION = 33;
 	static String name = "FWO";
 
 	public DatabaseHelper(Context context, CursorFactory factory, int version) {
@@ -47,16 +47,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// db.execSQL("DROP TABLE IF EXISTS Observation");
 		// db.execSQL("DROP TABLE IF EXISTS PredefineVal");
 		// db.execSQL("DROP TABLE IF EXISTS Trait");
-		db.execSQL("DROP TABLE IF EXISTS TraitList");
+		//db.execSQL("DROP TABLE IF EXISTS Observation");
 		// db.execSQL("DROP TABLE IF EXISTS TraitListContent");
 		// db.execSQL("DROP TABLE IF EXISTS User");
 		// db.execSQL("DROP TABLE IF EXISTS addLog");
 		// db.execSQL("DROP TABLE IF EXISTS deleteLog");
-		onCreate(db);
+		//onCreate(db);
 		// db.execSQL("ALTER TABLE TraitList ADD COLUMN nameVersion INTEGER DEFAULT 1");
 		// db.execSQL("ALTER TABLE TraitList ADD COLUMN accessible INTEGER DEFAULT 1");
 		// db.execSQL("ALTER TABLE Trait ADD COLUMN accessible BLOB");
-		// db.execSQL("ALTER TABLE Observation ADD COLUMN endTime DATETIME");
+		 //db.execSQL("ALTER TABLE Observation ADD COLUMN relation_id INTEGER");
 		// db.execSQL("ALTER TABLE ObserContent ADD COLUMN editable BLOB");
 		// db.execSQL("ALTER TABLE Trait RENAME TO Trait1");
 		// db.execSQL("create table Trait(traitID INTEGER PRIMARY KEY,traitName VARCHAR(128),widgetName VARCHAR(128),unit VARCHAR(45),accessible INTEGER DEFAULT 1)");

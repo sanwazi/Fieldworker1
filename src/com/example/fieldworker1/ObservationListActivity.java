@@ -171,6 +171,7 @@ public class ObservationListActivity extends ListActivity {
 			intent.putExtra("flag", 1);
 			startActivity(intent);
 			finish();
+			return true;
 		} else if (id == R.id.action_observation_create) {
 			if (traitListDao.findAll().size() == 0)
 				Toast.makeText(ObservationListActivity.this,
@@ -183,7 +184,8 @@ public class ObservationListActivity extends ListActivity {
 				intent.putExtra("password", user.getPassword());
 
 				startActivity(intent);
-				
+				finish();
+				return true;
 			}
 		}
 		return super.onOptionsItemSelected(item);
