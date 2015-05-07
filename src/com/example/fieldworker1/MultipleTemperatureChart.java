@@ -32,6 +32,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import com.example.dao.ObservationDao;
 import com.example.domain.Observation;
+import com.example.domain.Trait;
 import com.example.service.DataChartService;
 import com.example.validator.MyApplication;
 
@@ -49,11 +50,11 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
    * 
    * @return the chart name
    */
-	private ArrayList<String> traits;
+	private ArrayList<Trait> traits;
 	private ArrayList<Integer> observations;
 	private DataChartService dataChartService;
 	private String chartType;
-	public MultipleTemperatureChart(ArrayList<String> traits,ArrayList<Integer> observations,String chartType,Context context)
+	public MultipleTemperatureChart(ArrayList<Trait> traits,ArrayList<Integer> observations,String chartType,Context context)
 	{
 		this.traits=traits;
 		
@@ -84,7 +85,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
   public Intent execute(Context context)  {
     String[] titles = new String[traits.size()];
     for (int i = 0; i < traits.size(); i++) {
-		titles[i]=traits.get(i);
+		titles[i]=traits.get(i).getTraitName();
 	}
    
     List<Date[]> x = new ArrayList<Date[]>();
@@ -126,16 +127,16 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     }
     System.out.println("MultipleTemperature:"+getMax);
     double ymaxValue = Collections.max(getMax) + 5; 
-    XYMultipleSeriesDataset dataset = buildDataset(new String[] { traits.get(0) }, xAxis, yValues);
+    XYMultipleSeriesDataset dataset = buildDataset(new String[] { traits.get(0).getTraitName()}, xAxis, yValues);
     yValues.clear();
     if(traits.size()>1)
     {
     yValues.add(values.get(1));
     
-    addXYSeries(dataset, new String[] { traits.get(1) }, xAxis, yValues, 1);
+    addXYSeries(dataset, new String[] { traits.get(1).getTraitName() }, xAxis, yValues, 1);
     }
     
-    XYMultipleSeriesRenderer render=getDemoRenderer(x,"", "Create Time", traits, 0.3, 4.3, 0, ymaxValue, Color.LTGRAY, Color.LTGRAY);
+    XYMultipleSeriesRenderer render=getDemoRenderer(x,"", "Create Time", titles, 0.3, 4.3, 0, ymaxValue, Color.LTGRAY, Color.LTGRAY);
     Intent intent=new Intent();
     if (chartType.equalsIgnoreCase("Line")) {
     	 intent = ChartFactory.getCubicLineChartIntent(context, dataset, render,0);
@@ -146,11 +147,11 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     return intent;
   }
 
-public ArrayList<String> getTraits() {
+public ArrayList<Trait> getTraits() {
 	return traits;
 }
 
-public void setTraits(ArrayList<String> traits) {
+public void setTraits(ArrayList<Trait> traits) {
 	this.traits = traits;
 }
 
@@ -162,7 +163,7 @@ public void setObservations(ArrayList<Integer> observations) {
 	this.observations = observations;
 }
 private XYMultipleSeriesRenderer getDemoRenderer(List<Date[]> x,String title, String xTitle,
-	      ArrayList<String> traits, double xMin, double xMax, double yMin, double yMax, int axesColor,
+	      String[] traits, double xMin, double xMax, double yMin, double yMax, int axesColor,
 	      int labelsColor) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer(2);
     renderer.setAxisTitleTextSize(28);
@@ -180,7 +181,7 @@ private XYMultipleSeriesRenderer getDemoRenderer(List<Date[]> x,String title, St
     r.setFillPoints(true);
     r.setLineWidth(2.5f);
     renderer.addSeriesRenderer(r);
-    if (traits.size()==2) {
+    if (traits.length==2) {
        XYSeriesRenderer r1 = new XYSeriesRenderer();
     	
     	r1.setColor(Color.YELLOW);
@@ -189,7 +190,7 @@ private XYMultipleSeriesRenderer getDemoRenderer(List<Date[]> x,String title, St
         r1.setFillPoints(true);
         r1.setLineWidth(2.5f);
         renderer.addSeriesRenderer(r1);
-        renderer.setYTitle(traits.get(1), 1);
+        renderer.setYTitle(traits[1], 1);
         renderer.setYAxisAlign(Align.RIGHT, 1);  
         renderer.setYLabelsAlign(Align.LEFT, 1);
 	}
@@ -202,7 +203,7 @@ private XYMultipleSeriesRenderer getDemoRenderer(List<Date[]> x,String title, St
    
     renderer.setChartTitle(title);
     renderer.setXTitle(xTitle);
-    renderer.setYTitle(traits.get(0));
+    renderer.setYTitle(traits[0]);
     renderer.setXAxisMin(xMin);
     renderer.setXAxisMin(xMin, 1);
     renderer.setXAxisMax(xMax);

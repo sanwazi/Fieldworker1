@@ -442,7 +442,7 @@ public class HomeActivity extends Activity {
 			observations = observationDao
 					.searchObservationsWithTraitList(traitListDao
 							.findIdByName(parent.getItemAtPosition(position)
-									.toString()));
+									.toString()),user.getUserName());
 			observationIDs = observationDao
 					.searchObservationsWithTraitList1(traitListDao
 							.findIdByName(parent.getItemAtPosition(position)
@@ -450,7 +450,7 @@ public class HomeActivity extends Activity {
 			observationsForDate = observationDao
 					.searchObservationsWithTraitList(traitListDao
 							.findIdByName(parent.getItemAtPosition(position)
-									.toString()));
+									.toString()),user.getUserName());
 			refreshObserTable();
 		}
 

@@ -178,12 +178,12 @@ public class ObservationDao {
 		db.close();
 		return observation;
 	}
-	
-	public List<String> searchObservationsWithTraitList( Integer traitListID ){
+	//modified on 05/04/2015
+	public List<String> searchObservationsWithTraitList( Integer traitListID ,String username){
 		ArrayList<String> res = new ArrayList<String>();
 		db = helper.getWritableDatabase();
 		String sqlString = "SELECT observationName FROM Observation WHERE traitListID="
-				+ traitListID;
+				+ traitListID+" AND username="+"'"+username+"'";
 		Cursor cursor = db.rawQuery(sqlString, null);
 		while(cursor.moveToNext()){
 			res.add(cursor.getString(0));

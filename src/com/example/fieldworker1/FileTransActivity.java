@@ -148,7 +148,7 @@ public class FileTransActivity extends Activity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			try {
-				if (!excelSelectedEditTextUp.getText().toString().equals(""))
+				if (!imageSelectedEditTextUp.getText().toString().equals(""))
 					upLoadImageByAsyncHttpClient();
 				else {
 					Toast.makeText(FileTransActivity.this,

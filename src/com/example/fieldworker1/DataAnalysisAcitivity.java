@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.example.adapter.MyAdapter1;
+import com.example.adapter.TraitAdapter;
 import com.example.dao.ObservationDao;
 import com.example.dao.TraitListContentDao;
 import com.example.dao.TraitListDao;
@@ -47,23 +49,24 @@ public class DataAnalysisAcitivity extends Activity {
 	private Date from, to;
 	private String chartType;
 	private List<Trait> traits;
-	private ArrayList<String> traitSelected;
+	private ArrayList<Trait> traitSelected;
 	private ArrayList<String> obserSelected;
 	private ArrayList<Integer> obserIDsSelected;
 	private List<String> observations;
 	private List<Integer> observationIDs;
 	private List<String> observationsForDate;
 	private List<Integer> obserIDsForDate;
-    private TableLayout obserTable;
-    private RadioGroup group;
-    private EditText fromDate;
-    private EditText toDate;
-    private Spinner traitListSpinner;
-    private Spinner traitSpinner;
-    private Spinner trait2Spinner;
-    private Button submit;
-    private RadioButton bar;
-    private String username;
+	private TableLayout obserTable;
+	private RadioGroup group;
+	private EditText fromDate;
+	private EditText toDate;
+	private Spinner traitListSpinner;
+	private Spinner traitSpinner;
+	private Spinner trait2Spinner;
+	private Button submit;
+	private RadioButton bar;
+	private String username;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("DataAnalysisAcitivity on create");
@@ -72,72 +75,53 @@ public class DataAnalysisAcitivity extends Activity {
 		SharedPreferences mySharedPreferences = getSharedPreferences(
 				"MyPrefsFile", 0);
 		username = mySharedPreferences.getString("username", "");
-		
-		traitListDao=new TraitListDao(this);
-		traitListContentDao=new TraitListContentDao(this);
-		observationDao=new ObservationDao(this);
-		
-		traitSelected = new ArrayList<String>();
+
+		traitListDao = new TraitListDao(this);
+		traitListContentDao = new TraitListContentDao(this);
+		observationDao = new ObservationDao(this);
+
+		traitSelected = new ArrayList<Trait>();
 		obserSelected = new ArrayList<String>();
 		obserIDsSelected = new ArrayList<Integer>();
-		
-		bar=(RadioButton) findViewById(R.id.trait1_bar_button);
+
+		bar = (RadioButton) findViewById(R.id.trait1_bar_button);
 		bar.setChecked(true);
-		chartType="Bar";
-		obserTable=(TableLayout) findViewById(R.id.observation_choose_table);
-	    group=(RadioGroup) findViewById(R.id.trait1_radioGroup);
-	    fromDate=(EditText) findViewById(R.id.trait1_from_date);
-	    toDate=(EditText) findViewById(R.id.trait1_to_date);
-	    traitSpinner=(Spinner) findViewById(R.id.trait1Spinner_dialog);
-	    trait2Spinner=(Spinner) findViewById(R.id.trait2Spinner_dialog);
-	    traitListSpinner=(Spinner) findViewById(R.id.traitListSpinner_dialog);
-	    submit=(Button) findViewById(R.id.submit);
-	    
-	    List<String> selections = new ArrayList<String>();
-	    List<TraitList> traitLists = traitListDao.findByUsername(username);
-		for (Iterator<TraitList> iterator = traitLists.iterator(); iterator
-				.hasNext();) {
-			selections.add(((TraitList) iterator.next())
-					.getTraitListName());
-		}
-	    ArrayAdapter traitListAdapter = new ArrayAdapter<String>(
-				DataAnalysisAcitivity.this,
-				android.R.layout.simple_spinner_item, selections);
-		traitListAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    traitListSpinner.setAdapter(traitListAdapter);
-	    traitListSpinner.setOnItemSelectedListener(new TraitListSpinnerListener());
-	    
-	    List<String> selections1 = new ArrayList<String>();
-	    ArrayAdapter traitAdapter = new ArrayAdapter(
-				DataAnalysisAcitivity.this,
-				android.R.layout.simple_spinner_item, selections);
-		traitAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		traitSpinner.setAdapter(traitAdapter);
-		trait2Spinner.setAdapter(traitAdapter);
-		traitSpinner
-				.setOnItemSelectedListener(new traitSpinnerListener());
-		trait2Spinner
-				.setOnItemSelectedListener(new trait2SpinnerListener());
+		chartType = "Bar";
+		obserTable = (TableLayout) findViewById(R.id.observation_choose_table);
+		group = (RadioGroup) findViewById(R.id.trait1_radioGroup);
+		fromDate = (EditText) findViewById(R.id.trait1_from_date);
+		toDate = (EditText) findViewById(R.id.trait1_to_date);
+		traitSpinner = (Spinner) findViewById(R.id.trait1Spinner_dialog);
+		trait2Spinner = (Spinner) findViewById(R.id.trait2Spinner_dialog);
+		traitListSpinner = (Spinner) findViewById(R.id.traitListSpinner_dialog);
+		submit = (Button) findViewById(R.id.submit);
 
+		List<String> selections = new ArrayList<String>();
+		List<TraitList> traitLists = traitListDao.findByUsername(username);
+		MyAdapter1 traitListAdapter = new MyAdapter1(traitLists, this);
+		traitListSpinner.setAdapter(traitListAdapter);
+		traitListSpinner
+				.setOnItemSelectedListener(new TraitListSpinnerListener());
 
-	    fromDate.setOnClickListener(new OnClickListener() {
-			
+		traitSpinner.setOnItemSelectedListener(new traitSpinnerListener());
+		trait2Spinner.setOnItemSelectedListener(new trait2SpinnerListener());
+
+		fromDate.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				showDialog(0);
 			}
 		});
-	    toDate.setOnClickListener(new OnClickListener() {
-			
+		toDate.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				showDialog(1);
-				
+
 			}
 		});
-	    group = (RadioGroup)findViewById(R.id.trait1_radioGroup);
+		group = (RadioGroup) findViewById(R.id.trait1_radioGroup);
 
 		group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -150,67 +134,57 @@ public class DataAnalysisAcitivity extends Activity {
 			}
 
 		});
-       submit.setOnClickListener(new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			
-			if(Validate())
-			{
-			Intent intentAnalyseObser=new Intent();
-			intentAnalyseObser.putExtra(
-					"chartType", chartType);
-			intentAnalyseObser
-					.putStringArrayListExtra(
-							"traitName",
-							traitSelected);
-			intentAnalyseObser
-					.putStringArrayListExtra(
-							"observationName",
-							obserSelected);
-			intentAnalyseObser
-					.putIntegerArrayListExtra(
-							"observationID",
-							obserIDsSelected);
-			intentAnalyseObser.setClass(
-					DataAnalysisAcitivity.this,
-					DataChart.class);
-			DataAnalysisAcitivity.this
-					.startActivity(intentAnalyseObser);
-			DataAnalysisAcitivity.this.finish();
-			}
-			
-		}
+		submit.setOnClickListener(new OnClickListener() {
 
-		private boolean Validate() {
-			
-			if (obserIDsSelected.size()==0) {
-				Crouton.makeText(DataAnalysisAcitivity.this, "Choose at least 2 observations", Style.ALERT)
-				.show();
-				return false;
-			}
-			
-			for(String name:traitSelected)
-			{
-				for (Trait t:traits) {
-					if (t.getTraitName().equals(name)) {
-						if(!t.getWidgetName().equalsIgnoreCase("Slider"))
-						{
-						Crouton.makeText(DataAnalysisAcitivity.this, name+"can not be used to generate a chart!", Style.ALERT);
-						return false;
-						}
-						return true;
-					}
+			@Override
+			public void onClick(View v) {
+
+				if (Validate()) {
+					
+					Intent intentAnalyseObser = new Intent();
+					Bundle mBundle=new Bundle();
+					mBundle.putSerializable("traitName", traitSelected);
+					intentAnalyseObser.putExtras(mBundle);
+					intentAnalyseObser.putExtra("chartType", chartType);
+					intentAnalyseObser.putStringArrayListExtra(
+							"observationName", obserSelected);
+					intentAnalyseObser.putIntegerArrayListExtra(
+							"observationID", obserIDsSelected);
+					intentAnalyseObser.setClass(DataAnalysisAcitivity.this,
+							DataChart.class);
+					DataAnalysisAcitivity.this
+							.startActivity(intentAnalyseObser);
+					DataAnalysisAcitivity.this.finish();
 				}
+
 			}
-			return true;
-			
-			
-			
-		}
-	});
-	    
+
+			private boolean Validate() {
+
+				if (obserIDsSelected.size() == 0) {
+					Crouton.makeText(DataAnalysisAcitivity.this,
+							"Choose at least 2 observations", Style.ALERT)
+							.show();
+					return false;
+				}
+
+				for (Trait t : traitSelected) {
+					if (!t.getWidgetName().equalsIgnoreCase("Slider")) {
+						Crouton.makeText(DataAnalysisAcitivity.this, t.getTraitName()
+								+ "can not be used to generate a chart!",
+								Style.ALERT);
+						return false;
+					}
+					return true;
+
+				}
+				return true;
+
+			}
+		});
+
 	}
+
 	class TraitListSpinnerListener implements OnItemSelectedListener {
 
 		@Override
@@ -222,12 +196,11 @@ public class DataAnalysisAcitivity extends Activity {
 			toDate.setText("");
 			to = null;
 			obserTable.removeAllViews();
-			List<String> selections2 = traitListContentDao
-					.searchTraitNames(traitListDao.findIdByName(parent
-							.getItemAtPosition(position).toString()));
-			traits = traitListContentDao
-					.searchTraitsByTraitListID(traitListDao.findIdByName(parent
-							.getItemAtPosition(position).toString()));
+			TraitList t = (TraitList) parent.getItemAtPosition(position);
+			List<Trait> selections2 = traitListContentDao
+					.searchTraitsByTraitListID(t.getTraitListID());
+			traits = traitListContentDao.searchTraitsByTraitListID(t
+					.getTraitListID());
 			for (int i = 0; i < selections2.size(); i++) {
 				if (i == selections2.size())
 					break;
@@ -242,14 +215,19 @@ public class DataAnalysisAcitivity extends Activity {
 				Toast.makeText(DataAnalysisAcitivity.this,
 						"There is no analysable trait", Toast.LENGTH_SHORT)
 						.show();
-			ArrayAdapter traitAdapter = new ArrayAdapter(DataAnalysisAcitivity.this,
-					android.R.layout.simple_spinner_item, selections2);
-			ArrayAdapter trait2Adapter = new ArrayAdapter(DataAnalysisAcitivity.this,
-					android.R.layout.simple_spinner_item, selections2);
-			traitAdapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			trait2Adapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+			// ArrayAdapter traitAdapter = new
+			// ArrayAdapter(DataAnalysisAcitivity.this,
+			// android.R.layout.simple_spinner_item, selections2);
+			//
+			// ArrayAdapter trait2Adapter = new
+			// ArrayAdapter(DataAnalysisAcitivity.this,
+			// android.R.layout.simple_spinner_item, selections2);
+			TraitAdapter traitAdapter = new TraitAdapter(selections2,
+					DataAnalysisAcitivity.this);
+
+			TraitAdapter trait2Adapter = new TraitAdapter(selections2,
+					DataAnalysisAcitivity.this);
 
 			traitSpinner.setAdapter(traitAdapter);
 			traitSpinner.setOnItemSelectedListener(new traitSpinnerListener());
@@ -257,22 +235,16 @@ public class DataAnalysisAcitivity extends Activity {
 			trait2Spinner.setAdapter(trait2Adapter);
 			trait2Spinner
 					.setOnItemSelectedListener(new trait2SpinnerListener());
-
-			observations = observationDao
-					.searchObservationsWithTraitList(traitListDao
-							.findIdByName(parent.getItemAtPosition(position)
-									.toString()));
+      
+			observations = observationDao.searchObservationsWithTraitList(
+					t.getTraitListID(), username);
 			observationIDs = observationDao
-					.searchObservationsWithTraitList1(traitListDao
-							.findIdByName(parent.getItemAtPosition(position)
-									.toString()));
-			obserIDsForDate=observationDao.
-					searchObservationsWithTraitList1(traitListDao.
-							findIdByName(parent.getItemAtPosition(position).toString()));
+					.searchObservationsWithTraitList1(t.getTraitListID());
+			obserIDsForDate = observationDao
+					.searchObservationsWithTraitList1(t.getTraitListID());
 			observationsForDate = observationDao
-					.searchObservationsWithTraitList(traitListDao
-							.findIdByName(parent.getItemAtPosition(position)
-									.toString()));
+					.searchObservationsWithTraitList(
+							t.getTraitListID(), username);
 			refreshObserTable();
 		}
 
@@ -283,6 +255,7 @@ public class DataAnalysisAcitivity extends Activity {
 		}
 
 	}
+
 	private void refreshObserTable() {
 		obserTable.removeAllViews();
 		String str = "";
@@ -307,8 +280,8 @@ public class DataAnalysisAcitivity extends Activity {
 					// TODO Auto-generated method stub
 					if (isChecked) {
 						obserSelected.add(buttonView.getText().toString());
-						
-						obserIDsSelected.add(buttonView.getId());
+						if (!obserIDsSelected.contains(buttonView.getId()))
+							obserIDsSelected.add(buttonView.getId());
 					} else {
 						obserSelected.remove(buttonView.getText().toString());
 						obserIDsSelected.remove(buttonView.getId() + "");
@@ -319,32 +292,16 @@ public class DataAnalysisAcitivity extends Activity {
 			obserTable.addView(row);
 		}
 	}
+
 	class traitSpinnerListener implements OnItemSelectedListener {
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id) {
-			// TODO Auto-generated method stub
-            if (!traitSelected.contains(parent.getItemAtPosition(position).toString())) {
-            	traitSelected
-				.add(parent.getItemAtPosition(position).toString());
+			Trait t = (Trait) parent.getItemAtPosition(position);
+			if (!traitSelected.contains(t)) {
+				traitSelected.add(t);
 			}
-//			if (traitSelected.size() < 1) {
-//				traitSelected
-//						.add(parent.getItemAtPosition(position).toString());
-//			} else {
-//				if (traitSelected.contains(parent.getItemAtPosition(position)
-//						.toString())) {
-//					Toast.makeText(
-//							DataAnalysisAcitivity.this,
-//							parent.getItemAtPosition(position).toString()
-//									+ " has been selected,select another one please.",
-//							Toast.LENGTH_SHORT).show();
-//					traitSelected.set(0, "");
-//				} else
-//					traitSelected.set(0, parent.getItemAtPosition(position)
-//							.toString());
-//			}
 		}
 
 		@Override
@@ -360,37 +317,11 @@ public class DataAnalysisAcitivity extends Activity {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id) {
-			// TODO Auto-generated method stub
-			  if (!traitSelected.contains(parent.getItemAtPosition(position).toString())) {
-	            	traitSelected
-					.add(parent.getItemAtPosition(position).toString());
-				}
-//			if (traitSelected.size() < 2) {
-//				if (position != 0)
-//					if (traitSelected.contains(parent.getItemAtPosition(
-//							position).toString())) {
-//						Toast.makeText(
-//								DataAnalysisAcitivity.this,
-//								parent.getItemAtPosition(position).toString()
-//										+ " has been selected,select another one please.",
-//								Toast.LENGTH_SHORT).show();
-//						traitSelected.set(1, "");
-//					} else
-//						traitSelected.add(parent.getItemAtPosition(position)
-//								.toString());
-//			} else {
-//				if (position != 0)
-//					if (traitSelected.contains(parent.getItemAtPosition(
-//							position).toString()))
-//						Toast.makeText(
-//								DataAnalysisAcitivity.this,
-//								parent.getItemAtPosition(position).toString()
-//										+ " has been selected,select another one please.",
-//								Toast.LENGTH_SHORT).show();
-//					else
-//						traitSelected.set(1, parent.getItemAtPosition(position)
-//								.toString());
-//			}
+			Trait t = (Trait) parent.getItemAtPosition(position);
+			if (!traitSelected.contains(t)) {
+				traitSelected.add(t);
+			}
+
 		}
 
 		@Override
@@ -400,7 +331,7 @@ public class DataAnalysisAcitivity extends Activity {
 		}
 
 	}
-   
+
 	DatePickerDialog.OnDateSetListener fromDatePickerListener = new DatePickerDialog.OnDateSetListener() {
 
 		@Override
@@ -420,7 +351,7 @@ public class DataAnalysisAcitivity extends Activity {
 								observationDao.findIdByName(observationsForDate
 										.get(i))).getCreateTime().before(from)) {
 					observationsForDate.remove(i);
-					
+
 					i--;
 				}
 
@@ -428,10 +359,10 @@ public class DataAnalysisAcitivity extends Activity {
 			for (int i = 0; i < obserIDsForDate.size(); i++) {
 				if (i == obserIDsForDate.size())
 					break;
-				if (observationDao
-						.findObervationById(obserIDsForDate.get(i)).getCreateTime().before(from)) {
+				if (observationDao.findObervationById(obserIDsForDate.get(i))
+						.getCreateTime().before(from)) {
 					obserIDsForDate.remove(i);
-					
+
 					i--;
 				}
 
@@ -441,9 +372,9 @@ public class DataAnalysisAcitivity extends Activity {
 			observationsForDate = new ArrayList<String>();
 			for (int i = 0; i < observations.size(); i++)
 				observationsForDate.add(observations.get(i));
-			
-			obserIDsForDate=new ArrayList<Integer>();
-			for (Integer id:observationIDs)
+
+			obserIDsForDate = new ArrayList<Integer>();
+			for (Integer id : observationIDs)
 				obserIDsForDate.add(id);
 		}
 
@@ -473,14 +404,14 @@ public class DataAnalysisAcitivity extends Activity {
 				}
 
 			}
-			
+
 			for (int i = 0; i < obserIDsForDate.size(); i++) {
 				if (i == obserIDsForDate.size())
 					break;
-				if (observationDao
-						.findObervationById(obserIDsForDate.get(i)).getCreateTime().after(to)) {
+				if (observationDao.findObervationById(obserIDsForDate.get(i))
+						.getCreateTime().after(to)) {
 					obserIDsForDate.remove(i);
-					
+
 					i--;
 				}
 
@@ -490,9 +421,9 @@ public class DataAnalysisAcitivity extends Activity {
 			observationsForDate = new ArrayList<String>();
 			for (int i = 0; i < observations.size(); i++)
 				observationsForDate.add(observations.get(i));
-			
-			obserIDsForDate=new ArrayList<Integer>();
-			for (Integer id:observationIDs)
+
+			obserIDsForDate = new ArrayList<Integer>();
+			for (Integer id : observationIDs)
 				obserIDsForDate.add(id);
 		}
 
@@ -518,7 +449,7 @@ public class DataAnalysisAcitivity extends Activity {
 
 		return null;
 	}
- 
+
 	private void refreshObserTableForDate() {
 		obserTable.removeAllViews();
 		String str = "";
@@ -543,10 +474,11 @@ public class DataAnalysisAcitivity extends Activity {
 					// TODO Auto-generated method stub
 					if (isChecked) {
 						obserSelected.add(buttonView.getText().toString());
-						obserIDsSelected.add(buttonView.getId());
+						if (!obserIDsSelected.contains(buttonView.getId()))
+							obserIDsSelected.add(buttonView.getId());
 					} else {
 						obserSelected.remove(buttonView.getText().toString());
-						obserIDsSelected.remove(buttonView.getId()+"");
+						obserIDsSelected.remove(buttonView.getId() + "");
 					}
 				}
 			});
@@ -554,6 +486,5 @@ public class DataAnalysisAcitivity extends Activity {
 			obserTable.addView(row);
 		}
 	}
-
 
 }

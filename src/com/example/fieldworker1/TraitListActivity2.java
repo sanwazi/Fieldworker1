@@ -14,6 +14,7 @@ import com.example.domain.DeleteLog;
 import com.example.domain.TraitList;
 import com.example.fieldworker1.ListViewSubClass.OnDeleteListener;
 import com.example.phpServer.TraitListPhpService;
+import com.example.service.TraitListService;
 import com.example.validator.MyApplication;
 
 import android.content.Context;
@@ -92,6 +93,7 @@ public class TraitListActivity2 extends Activity {
 	private void showTraitList() {
 		final TraitListDao traitListDao=new TraitListDao(TraitListActivity2.this);
 		final TraitListPhpService traitListPhpService=new TraitListPhpService(TraitListActivity2.this,username);
+		final TraitListService tlService=new TraitListService(this);
 		final ArrayList<TraitList> traitLists = (ArrayList<TraitList>) traitListDao
 				.findByUsername(username);
 		final MyCustomAdapter dataAdapter = new MyCustomAdapter(this,
@@ -129,7 +131,7 @@ public class TraitListActivity2 extends Activity {
 				//addLogDao.insert(new AddLog(UUID.randomUUID().hashCode(), "TraitList", traitListID));
 				}
 			}
-		    traitListDao.delete(traitLists.get(index).getTraitListName());	
+		    tlService.deleteTraitList(traitLists.get(index));	
 			 traitLists.remove(index);
 			 dataAdapter.notifyDataSetChanged();
 			}

@@ -8,18 +8,18 @@ import java.util.List;
 
 import com.example.dao.ObservationDao;
 import com.example.dao.TraitDao;
+import com.example.domain.Trait;
 
 import android.R.integer;
 import android.content.Context;
 
 public class DataChartService {
 	private ObservationDao observationDao;
-	private TraitDao traitDao;
-	private ArrayList<String> traits;
+	private ArrayList<Trait> traits;
 	private ArrayList<Integer> observations;
-	public DataChartService(Context context,ArrayList<String> traits,ArrayList<Integer> observations)
+	public DataChartService(Context context,ArrayList<Trait> traits,ArrayList<Integer> observations)
 	{
-		traitDao=new TraitDao(context);
+		new TraitDao(context);
 		observationDao=new ObservationDao(context);
 		this.setTraits(traits);
 		this.setObservations(observations);
@@ -45,7 +45,7 @@ public class DataChartService {
     	
     	for (int i = 0; i < traits.size(); i++) {
     		double[] yValue=new double[observations.size()];
-    		int traitID=traitDao.findIdByName(traits.get(i));
+    		int traitID=traits.get(i).getTraitID();
     		for (int j = 0; j < observations.size(); j++) {
     			yValue[j]=observationDao.getTraitValue(traitID, observations.get(j));
     			System.out.println(traitID+";"+observations.get(j)+";"+yValue[j]);
@@ -62,10 +62,10 @@ public class DataChartService {
 	public void setObservations(ArrayList<Integer> observations) {
 		this.observations = observations;
 	}
-	public ArrayList<String> getTraits() {
+	public ArrayList<Trait> getTraits() {
 		return traits;
 	}
-	public void setTraits(ArrayList<String> traits) {
-		this.traits = traits;
+	public void setTraits(ArrayList<Trait> traits2) {
+		this.traits = traits2;
 	}
 }

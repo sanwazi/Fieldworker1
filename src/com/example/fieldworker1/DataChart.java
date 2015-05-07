@@ -6,33 +6,32 @@ import java.util.Collections;
 
 import com.example.dao.ObservationDao;
 import com.example.domain.Observation;
+import com.example.domain.Trait;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 public class DataChart extends Activity {
-	private ArrayList<String> traitName;
+	private ArrayList<Trait> traitName;
 	private ArrayList<String> observationNames;
 	private ArrayList<Integer> observationIDs;
 	private MultipleTemperatureChart mChart;
 	private ObservationDao oDao;
 	private String chartType;
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		oDao=new ObservationDao(DataChart.this);
 		Intent intent=getIntent();
-		traitName=intent.getStringArrayListExtra("traitName");
+		traitName=(ArrayList<Trait>) intent.getSerializableExtra("traitName");
 		observationNames=intent.getStringArrayListExtra("observationName");
-		System.out.println("DataChart observationNames size:"+observationNames.size());
+		System.out.println("DataChart traitSelected:"+traitName.size());
 		observationIDs=intent.getIntegerArrayListExtra("observationID");
 		System.out.println(observationIDs+"$$$$");
-//		observationIDs=new ArrayList<Integer>();
-//		for (int i = 0; i < observationNames.size(); i++) {
-//			observationIDs.add(oDao.findIdByName(observationNames.get(i)));
-//		}
+
 		chartType=intent.getStringExtra("chartType");
 		ArrayList<Observation> observations=new ArrayList<Observation>();
 		

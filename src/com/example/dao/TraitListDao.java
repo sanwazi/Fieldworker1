@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.db.DatabaseHelper;
+import com.example.domain.Trait;
 import com.example.domain.TraitList;
 
 public class TraitListDao {
@@ -135,10 +136,16 @@ public class TraitListDao {
 		
 		return result;
     }
-	public void delete(String name) {
+	public void delete(TraitList t,boolean isUsed) {
+		
+		String sqlString="";
+		if (isUsed) 
+			sqlString = "UPDATE TraitList SET accessible=0 WHERE traitListID="
+					+ "'" + t.getTraitListID() + "'";		
+		else
+		    sqlString = "delete from TraitList WHERE traitListID="
+				+ "'" + t.getTraitListID() + "'";
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		String sqlString = "UPDATE TraitList SET accessible=0 WHERE traitListName="
-				+ "'" + name + "'";
 		db.execSQL(sqlString);
 		db.close();
 	}

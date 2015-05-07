@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.fieldworker1.R;
+import com.example.adapter.MyAdapter1;
 import com.example.dao.AddLogDao;
 import com.example.dao.DeleteLogDao;
 import com.example.dao.ObserContentDao;
@@ -157,21 +158,24 @@ public class CreateObservationActivity extends Activity {
 		deleteLogDao = new DeleteLogDao(this);
 
 		// construct traitlist selection
-		List<TraitList> traitLists = traitListDao.findByUsername(user.getUserName());
-		List<String> selections = new ArrayList<String>();
-		for (Iterator<TraitList> iterator = traitLists.iterator(); iterator
-				.hasNext();) {
-			selections.add(((TraitList) iterator.next()).getTraitListName());
-		}
-
-		ArrayAdapter traitListAdapter = new ArrayAdapter(this,
-				android.R.layout.simple_spinner_item, selections);
-		traitListAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		List<TraitList> selections = traitListDao.findByUsername(user.getUserName());
+//		List<String> selections = new ArrayList<String>();
+//		for (Iterator<TraitList> iterator = traitLists.iterator(); iterator
+//				.hasNext();) {
+//			selections.add(((TraitList) iterator.next()).getTraitListName());
+//		}
+//
+//		ArrayAdapter traitListAdapter = new ArrayAdapter(this,
+//				android.R.layout.simple_spinner_item, selections);
+//		traitListAdapter
+//				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//		
+		MyAdapter1 traitListAdapter=new MyAdapter1(selections, this);
 		traitListSpi.setAdapter(traitListAdapter);
-
+        
 		traitListSpi.setOnItemSelectedListener(new spinnerListener());
-		traitListName = traitListSpi.getItemAtPosition(0).toString();
+		traitListName = ((TraitList)traitListSpi.getItemAtPosition(0)).getTraitListName();
 
 		cameraButton = (ImageButton) findViewById(R.id.cameraButton_Create);
 		cameraButton.setOnClickListener(new CameraListener());
@@ -711,9 +715,10 @@ public class CreateObservationActivity extends Activity {
 				TableRow row = (TableRow) traitTable.getChildAt(i);
 				row.setVisibility(8);
 			}
-			traitListName = arg0.getItemAtPosition(arg2).toString();
+			TraitList t=(TraitList) arg0.getItemAtPosition(arg2);
+			traitListName =t.getTraitListName();
 			// constructe trait table
-			traitListID = traitListDao.findIdByName(traitListName);
+			traitListID = t.getTraitListID();
 			generateList(traitListID);
 		}
 

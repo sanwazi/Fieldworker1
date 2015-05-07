@@ -9,6 +9,7 @@ import android.R.integer;
 import android.content.Context;
 
 import com.example.dao.AddLogDao;
+import com.example.dao.ObservationDao;
 import com.example.dao.TraitDao;
 import com.example.dao.TraitListContentDao;
 import com.example.dao.TraitListDao;
@@ -21,12 +22,14 @@ public class TraitListService {
 	private TraitListContentDao traitListContentDao;
 	private TraitDao traitDao;
     private AddLogDao addLogDao;
+    private ObservationDao obserDao;
 	public TraitListService(Context context)
 	{
 		traitListDao=new TraitListDao(context);
 		traitListContentDao=new TraitListContentDao(context);
 		traitDao=new TraitDao(context);
 		addLogDao=new AddLogDao(context);
+		obserDao=new ObservationDao(context);
 	}
     public void addTraitToTraitList(String traitName,Integer traitListID)
     {
@@ -55,9 +58,14 @@ public class TraitListService {
 		}
     	}
 	}
-    public void deleteTraitList()
+    public void deleteTraitList(TraitList t)
     {
-    	
+    	if (obserDao.searchObservationsWithTraitList(
+						t.getTraitListID(),t.getUsername()).size() == 0) {
+			traitListDao.delete(t,false);
+		}
+    	else
+    		traitListDao.delete(t,true);
     }
     public void deleteTraitFromList(String TraitListName, String TraitName)
     {

@@ -144,7 +144,7 @@ public class ShowTraitList extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (obserDao.searchObservationsWithTraitList(
-						tl.getTraitListID()).size() == 0) {
+						tl.getTraitListID(),username).size() == 0) {
 					
                     traitListService.updateTraitList(tl,currentTraits);
                     if (MyApplication.isNetworkOnline()) {
