@@ -135,7 +135,7 @@ public class EditObservation extends Activity {
 		setContentView(R.layout.activity_observation_edit);
 
 		traitListText = (EditText) findViewById(R.id.editTraitListObser);
-		String str = traitListDao.findNameById(observation.getTraitListID());
+		String str = traitListDao.findById(observation.getTraitListID()).getTraitVersionName();
 		traitListText.setText(str);
 		obserNameField = (EditText) findViewById(R.id.observationEditNameFieldObser);
 		String name = observation.getObservationName().replace("---", "");

@@ -39,7 +39,7 @@ public class TraitListActivity2 extends Activity {
 	private AddLogDao addLogDao;
 	private DeleteLogDao deleteLogDao;
 	private ListViewSubClass mListView;
-	private List<HashMap<String, String>> list;
+	//private List<HashMap<String, String>> list;
 	private String username;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class TraitListActivity2 extends Activity {
 				traitListPhpService.deleteTraitList(traitLists.get(index).getTraitListName());
 			}
 			else {
-				Integer traitListID=traitListDao.findIdByName(list.get(index).get("traitList_name"));
+				Integer traitListID=traitLists.get(index).getTraitListID();
 				AddLog addLog=new AddLog(UUID.randomUUID().hashCode(), "TraitList", traitListID);
 				if (addLogDao.checkExist(addLog)) {
 					System.out.println("the traitList just added,have not added into server");

@@ -67,12 +67,12 @@ public class TraitListService {
     	else
     		traitListDao.delete(t,true);
     }
-    public void deleteTraitFromList(String TraitListName, String TraitName)
-    {
-    	int traitListID=traitListDao.findIdByName(TraitListName);
-    	int traitID=traitDao.findIdByName(TraitName);
-    	traitListContentDao.delete(traitListID, traitID);
-    }
+//    public void deleteTraitFromList(String TraitListName, String TraitName)
+//    {
+//    	int traitListID=traitListDao.findIdByName(TraitListName);
+//    	int traitID=traitDao.findIdByName(TraitName);
+//    	traitListContentDao.delete(traitListID, traitID);
+//    }
 	public void updateTraitList(TraitList tl, ArrayList<String> currentTraits) {
 		int traitListID=tl.getTraitListID();
 		traitListContentDao.deleteTraitListContent(traitListID);

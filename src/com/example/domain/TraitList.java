@@ -3,6 +3,8 @@ package com.example.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import android.R.integer;
+
 public class TraitList implements Serializable{
 
 	private int traitListID;
@@ -88,7 +90,17 @@ public class TraitList implements Serializable{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+    public String getTraitVersionName()
+    {
+    	String result="";
+    	if (nameVersion == 0) {
+			result=traitListName;
+		} else {
+			result=traitListName + "_"
+					+ nameVersion;
+		}
+    	return result;
+    }
 	
 
 	public int getAccessible() {

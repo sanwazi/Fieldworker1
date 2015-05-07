@@ -41,9 +41,7 @@ public class TraitListDao {
 	}
 
 	public void insertDownload(TraitList traitList) {
-		if (findIdByName(traitList.getTraitListName()) != null) {
-
-		}
+		
 		if (findNameById(traitList.getTraitListID()) == null) {
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
 			db.execSQL(
@@ -97,25 +95,25 @@ public class TraitListDao {
 		return traitLists;
 	}
 
-	public Integer findIdByName(String name) {
-		int id;
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		String sqlString = "SELECT traitListID FROM TraitList WHERE traitListName="
-				+ "'" + name + "'";
-		Cursor cursor = db.rawQuery(sqlString, null);
-
-		if (cursor.moveToNext()) {
-			id = cursor.getInt(0);
-			db.close();
-			cursor.close();
-			return id;
-		} else {
-			db.close();
-			cursor.close();
-			return null;
-		}
-
-	}
+//	public Integer findIdByName(String name) {
+//		int id;
+//		SQLiteDatabase db = dbHelper.getReadableDatabase();
+//		String sqlString = "SELECT traitListID FROM TraitList WHERE traitListName="
+//				+ "'" + name + "'";
+//		Cursor cursor = db.rawQuery(sqlString, null);
+//
+//		if (cursor.moveToNext()) {
+//			id = cursor.getInt(0);
+//			db.close();
+//			cursor.close();
+//			return id;
+//		} else {
+//			db.close();
+//			cursor.close();
+//			return null;
+//		}
+//
+//	}
     public List<TraitList> findByName(String traitListName,String username)
     {
     	List<TraitList> result=new ArrayList<TraitList>();
@@ -189,14 +187,15 @@ public class TraitListDao {
 
 	public TraitList findById(Integer id) {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		String sqlString = "SELECT traitListID,traitListName,username,accessible FROM TraitList WHERE traitListID="
+		String sqlString = "SELECT traitListID,traitListName,username,accessible,nameVersion FROM TraitList WHERE traitListID="
 				+ id;
 		Cursor cursor = db.rawQuery(sqlString, null);
 		cursor.moveToNext();
 		String name = cursor.getString(1);
 		String username = cursor.getString(2);
 		Integer accessible = cursor.getInt(3);
-		TraitList tList = new TraitList(id, name, username, accessible);
+		Integer nameVersion=cursor.getInt(4);
+		TraitList tList = new TraitList(id, name, username, accessible,nameVersion);
 		cursor.close();
 		db.close();
 		

@@ -111,7 +111,7 @@ public class ObservationActivity extends Activity {
 		traitListText = (EditText) findViewById(R.id.traitListObser);
 		System.out.println("observation: "+ observation);
 		
-		String str = traitListDao.findNameById(observation.getTraitListID());
+		String str = traitListDao.findById(observation.getTraitListID()).getTraitVersionName();
 		System.out.println("?????"+str);
 		traitListText.setText(str);
 		traitListText.setEnabled(false);

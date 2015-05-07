@@ -175,7 +175,7 @@ public class CreateObservationActivity extends Activity {
 		traitListSpi.setAdapter(traitListAdapter);
         
 		traitListSpi.setOnItemSelectedListener(new spinnerListener());
-		traitListName = ((TraitList)traitListSpi.getItemAtPosition(0)).getTraitListName();
+		traitListName = ((TraitList)traitListSpi.getItemAtPosition(0)).getTraitVersionName();
 
 		cameraButton = (ImageButton) findViewById(R.id.cameraButton_Create);
 		cameraButton.setOnClickListener(new CameraListener());
@@ -716,7 +716,7 @@ public class CreateObservationActivity extends Activity {
 				row.setVisibility(8);
 			}
 			TraitList t=(TraitList) arg0.getItemAtPosition(arg2);
-			traitListName =t.getTraitListName();
+			traitListName =t.getTraitVersionName();
 			// constructe trait table
 			traitListID = t.getTraitListID();
 			generateList(traitListID);

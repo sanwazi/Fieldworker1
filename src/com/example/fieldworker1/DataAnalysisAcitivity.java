@@ -18,6 +18,7 @@ import com.example.fieldworker1.MainActivity.ValidateUsernamesynTask;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -69,7 +70,6 @@ public class DataAnalysisAcitivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("DataAnalysisAcitivity on create");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_choose_observations);
 		SharedPreferences mySharedPreferences = getSharedPreferences(
@@ -215,14 +215,6 @@ public class DataAnalysisAcitivity extends Activity {
 				Toast.makeText(DataAnalysisAcitivity.this,
 						"There is no analysable trait", Toast.LENGTH_SHORT)
 						.show();
-
-			// ArrayAdapter traitAdapter = new
-			// ArrayAdapter(DataAnalysisAcitivity.this,
-			// android.R.layout.simple_spinner_item, selections2);
-			//
-			// ArrayAdapter trait2Adapter = new
-			// ArrayAdapter(DataAnalysisAcitivity.this,
-			// android.R.layout.simple_spinner_item, selections2);
 			TraitAdapter traitAdapter = new TraitAdapter(selections2,
 					DataAnalysisAcitivity.this);
 
@@ -258,6 +250,7 @@ public class DataAnalysisAcitivity extends Activity {
 
 	private void refreshObserTable() {
 		obserTable.removeAllViews();
+		obserIDsSelected.clear();
 		String str = "";
 		int index = 0;
 		for (int i = 0; i < observations.size(); i++) {
@@ -281,10 +274,18 @@ public class DataAnalysisAcitivity extends Activity {
 					if (isChecked) {
 						obserSelected.add(buttonView.getText().toString());
 						if (!obserIDsSelected.contains(buttonView.getId()))
+						{
 							obserIDsSelected.add(buttonView.getId());
+						}
 					} else {
 						obserSelected.remove(buttonView.getText().toString());
-						obserIDsSelected.remove(buttonView.getId() + "");
+						for(int i=obserIDsSelected.size()-1;i>=0;i--)
+						{
+							if (obserIDsSelected.get(i).equals(buttonView.getId())) {
+								obserIDsSelected.remove(i);
+							}
+						}
+						
 					}
 				}
 			});
@@ -452,6 +453,7 @@ public class DataAnalysisAcitivity extends Activity {
 
 	private void refreshObserTableForDate() {
 		obserTable.removeAllViews();
+		obserIDsSelected.clear();
 		String str = "";
 		int index = 0;
 		for (int i = 0; i < observationsForDate.size(); i++) {
@@ -478,7 +480,12 @@ public class DataAnalysisAcitivity extends Activity {
 							obserIDsSelected.add(buttonView.getId());
 					} else {
 						obserSelected.remove(buttonView.getText().toString());
-						obserIDsSelected.remove(buttonView.getId() + "");
+						for(int i=obserIDsSelected.size()-1;i>=0;i--)
+						{
+							if (obserIDsSelected.get(i).equals(buttonView.getId())) {
+								obserIDsSelected.remove(i);
+							}
+						}
 					}
 				}
 			});
