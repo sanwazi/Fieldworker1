@@ -1,12 +1,8 @@
 package com.example.fieldworker1;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.example.dao.TraitDao;
 import com.example.domain.Trait;
-import com.example.domain.TraitList;
 import com.example.fieldworker1.ListViewSubClass.OnDeleteListener;
 
 import android.app.ListActivity;
@@ -22,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class TraitActivity extends ListActivity {
@@ -30,7 +25,6 @@ private static final int AddTrait=1;
 private static final String PREFS_NAME = "MyPrefsFile";
 	private TraitDao traitDao;
 	private ListViewSubClass mListView;
-	private MyAdapter listAdapter;
 	private String username;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

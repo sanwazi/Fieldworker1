@@ -85,6 +85,7 @@ public class EditObservation extends Activity {
 	private Bitmap bmp;
 	private HashMap<Integer, String> traitValues;
 	private HashMap<Integer, String> traitEditable;
+	private HashMap<String, TextView> sliderValues;
 	private Date deletingDeadline;
 
 	private EditText obserNameField;
@@ -126,6 +127,7 @@ public class EditObservation extends Activity {
 		max = "";
 		photoPath = new ArrayList<String>();
 
+		sliderValues = new HashMap<String, TextView>();
 		Intent intent = getIntent();
 		user = new User(intent.getStringExtra("username"),
 				intent.getStringExtra("password"));
@@ -135,7 +137,8 @@ public class EditObservation extends Activity {
 		setContentView(R.layout.activity_observation_edit);
 
 		traitListText = (EditText) findViewById(R.id.editTraitListObser);
-		String str = traitListDao.findById(observation.getTraitListID()).getTraitVersionName();
+		String str = traitListDao.findById(observation.getTraitListID())
+				.getTraitVersionName();
 		traitListText.setText(str);
 		obserNameField = (EditText) findViewById(R.id.observationEditNameFieldObser);
 		String name = observation.getObservationName().replace("---", "");
@@ -451,6 +454,7 @@ public class EditObservation extends Activity {
 			sliderValueRow.addView(sliderValue);
 			sliderValueRow.setGravity(Gravity.CENTER_HORIZONTAL);
 			traitTable.addView(sliderValueRow);
+			sliderValues.put("" + trait.getTraitID(), sliderValue);
 			PredefineValueDao preDao = new PredefineValueDao(this);
 
 			for (String s : preDao.search1(trait.getTraitID()))
@@ -525,8 +529,11 @@ public class EditObservation extends Activity {
 									index = i;
 							values[index] = "";
 							values[index] += (Integer.parseInt(min) + value);
-							sliderValue.setText(""
-									+ (Integer.parseInt(min) + value));
+							sliderValues
+									.get(String.valueOf(trait.getTraitID()))
+									.setText(
+											""
+													+ (Integer.parseInt(min) + value));
 						}
 
 					});
@@ -564,8 +571,15 @@ public class EditObservation extends Activity {
 									index = i;
 							values[index] = "";
 							values[index] += (Integer.parseInt(pValues) + value);
-							sliderValue.setText(""
-									+ (Integer.parseInt(pValues) + value));
+							// sliderValue.setText(""
+							// + (Integer.parseInt(pValues) + value));
+							sliderValues
+									.get(String.valueOf(trait.getTraitID()))
+									.setText(
+											""
+													+ (Integer
+															.parseInt(pValues) + value));
+
 						}
 
 					});
@@ -786,9 +800,11 @@ public class EditObservation extends Activity {
 			}
 
 			for (int i = 0; i < traitNames.length; i++) {
-				obserContentDao.updateTraitValueById(values[i],
-						observation.getObservationID(),
-						traitDao.findIdByName(traitNames[i]));
+				// obserContentDao.updateTraitValueById(values[i],
+				// observation.getObservationID(),
+				// traitDao.findIdByName(traitNames[i]));
+				obserContentDao.updateTraitValueById(values[i], observation
+						.getObservationID(), traits.get(i).getTraitID());
 			}
 
 			String path = "";

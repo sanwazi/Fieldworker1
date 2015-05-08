@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -92,6 +93,7 @@ public class CreateObservationActivity extends Activity {
 	private Spinner traitListSpi;
 	private TableLayout traitTable;
 	private Button datePicker;
+	private HashMap<String,TextView> sliderValues;
 	private TextView sliderValue;
 	private ImageButton cameraButton;
 	private Gallery imageGallery;
@@ -137,6 +139,8 @@ public class CreateObservationActivity extends Activity {
 				intent.getStringExtra("password"));
 		// ------------------------------XXXXXXXXX
 
+		sliderValues = new HashMap<String,TextView>();
+		
 		setContentView(R.layout.activity_observation_create);
 
 		obserNameField = (EditText) findViewById(R.id.observationNameField);
@@ -156,7 +160,7 @@ public class CreateObservationActivity extends Activity {
 		obserContentDao = new ObserContentDao(this);
 		addLogDao = new AddLogDao(this);
 		deleteLogDao = new DeleteLogDao(this);
-
+		
 		// construct traitlist selection
 		
 		List<TraitList> selections = traitListDao.findByUsername(user.getUserName());
@@ -569,11 +573,13 @@ public class CreateObservationActivity extends Activity {
 		} else if (trait.getWidgetName().equals("Slider")) {
 
 			TableRow sliderValueRow = new TableRow(this);
+
 			sliderValue = new TextView(this);
 			sliderValue.setGravity(Gravity.CENTER_HORIZONTAL);
 			sliderValueRow.addView(sliderValue);
 			sliderValueRow.setGravity(Gravity.CENTER_HORIZONTAL);
 			traitTable.addView(sliderValueRow);
+			sliderValues.put(String.valueOf(trait.getTraitID()),sliderValue );
 			PredefineValueDao preDao = new PredefineValueDao(this);
 			for (String s : preDao.search1(trait.getTraitID()))
 				if (!s.equals(pValues))
@@ -617,6 +623,7 @@ public class CreateObservationActivity extends Activity {
 								index = i;
 						values[index] = "";
 						values[index] += (Integer.parseInt(min) + value);
+						//sliderValues.get(sliderindex.get)
 						sliderValue.setText(""
 								+ (Integer.parseInt(min) + value));
 					}
@@ -657,8 +664,9 @@ public class CreateObservationActivity extends Activity {
 								index = i;
 						values[index] = "";
 						values[index] += (Integer.parseInt(pValues) + value);
-						sliderValue.setText(""
+						sliderValues.get(String.valueOf(trait.getTraitID())).setText(""
 								+ (Integer.parseInt(pValues) + value));
+						//sliderValue.setText();
 					}
 
 				});
@@ -958,13 +966,19 @@ public class CreateObservationActivity extends Activity {
 
 				AddLog addObserConLog;
 				for (int i = 0; i < traitNames.length; i++) {
+//					ObserContent obserContent = new ObserContent(UUID.randomUUID().hashCode(), observationID,
+//							traitDao.findIdByName(traitNames[i]), values[i],
+//							editable[i]);
 					ObserContent obserContent = new ObserContent(UUID.randomUUID().hashCode(), observationID,
-							traitDao.findIdByName(traitNames[i]), values[i],
+						traits.get(i).getTraitID(), values[i],
 							editable[i]);
 					obserContentDao.addObserContent(obserContent);
+//					addObserConLog = new AddLog(UUID.randomUUID().hashCode(),
+//							"ObserContent", observationID,
+//							traitDao.findIdByName(traitNames[i]));
 					addObserConLog = new AddLog(UUID.randomUUID().hashCode(),
 							"ObserContent", observationID,
-							traitDao.findIdByName(traitNames[i]));
+							traits.get(i).getTraitID());
 					addLogDao.insert(addObserConLog);
 
 					Intent intent = new Intent(CreateObservationActivity.this,

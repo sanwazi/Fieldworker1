@@ -248,6 +248,7 @@ public class MainActivity extends ActionBarActivity {
 							"Password is incorrect.", Toast.LENGTH_SHORT);
 					toast.show();
 				} else {
+					
 					SharedPreferences mySharedPreferences = getSharedPreferences(
 							PREFS_NAME, Activity.MODE_PRIVATE);
 					SharedPreferences.Editor editor = mySharedPreferences
@@ -259,7 +260,7 @@ public class MainActivity extends ActionBarActivity {
 					intent.putExtra("username", u.getUserName());
 					intent.putExtra("password", u.getPassword());
 					if (isNetworkConnected(MainActivity.this)) {
-
+                          downloadTraitAndTraitList(u.getUserName());
 					}
 					intent.setClass(MainActivity.this, HomeActivity.class);
 					startActivity(intent);

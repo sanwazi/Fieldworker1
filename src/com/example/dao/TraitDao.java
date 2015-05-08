@@ -134,7 +134,7 @@ public class TraitDao {
 		return new Trait(traitID, traitName, widgetName, unit,username,nameVersion);
 	}
 
-	public int findIdByName(String name) {
+	/*public int findIdByName(String name) {
 		int id;
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		String sqlString = "SELECT traitID FROM Trait WHERE traitName=" + "'"
@@ -148,7 +148,7 @@ public class TraitDao {
 		db.close();
 		return 0;
 
-	}
+	}*/
 
 	public String findNameById(Integer id) {
 		String name;

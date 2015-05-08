@@ -2,8 +2,6 @@ package com.example.fieldworker1;
 
 import android.app.Activity;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import com.example.dao.AddLogDao;
