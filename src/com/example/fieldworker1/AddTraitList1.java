@@ -154,7 +154,8 @@ public class AddTraitList1 extends Activity {
 			@Override
 			public void onValidationSucceeded() {
 				Integer traitListID=UUID.randomUUID().hashCode();
-				TraitList traitList=new TraitList(traitListID, traitListName.getText().toString(), username);
+				//TraitList traitList=new TraitList(traitListID, traitListName.getText().toString(), username);
+				TraitList traitList=new TraitList(traitListID, traitListName.getText().toString(), username, 1);
 				if (isNetworkOnline()) {
 					traitListPhpService.addTraitList(traitList, checkedItems);
 				}

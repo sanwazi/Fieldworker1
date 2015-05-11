@@ -65,6 +65,7 @@ private static final String PREFS_NAME = "MyPrefsFile";
 		System.out.println("start showTraits");
 		
 		final ArrayList<Trait> traits=traitDao.findAllForOne(username);
+		System.out.println("TraitActivity traits:"+traits);
 		final MyCustomAdapter dataAdapter=new MyCustomAdapter(this,  R.layout.trait_item, traits);
 		
 		

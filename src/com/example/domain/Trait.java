@@ -41,6 +41,18 @@ public class Trait implements Serializable {
 		this.nameVersion=nameVersion;
 	}
 
+	public Trait(int traitID, String traitName, String widgetName, String unit,
+			int accessible, String username, int nameVersion) {
+		super();
+		this.traitID = traitID;
+		this.traitName = traitName;
+		this.widgetName = widgetName;
+		this.unit = unit;
+		this.accessible = accessible;
+		this.username = username;
+		this.nameVersion = nameVersion;
+	}
+
 	public Trait(String traitName, String widgetName, String unit,String username,int accessible,int nameVersion) {
 		super();
 		Integer traitID = UUID.randomUUID().hashCode();

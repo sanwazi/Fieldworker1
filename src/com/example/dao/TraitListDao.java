@@ -31,11 +31,12 @@ public class TraitListDao {
 		if (findNameById(traitList.getTraitListID()) == null) {
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
 			db.execSQL(
-					"INSERT INTO TraitList(traitListID,traitListName,username,nameVersion) VALUES(?,?,?,?)",
+					"INSERT INTO TraitList(traitListID,traitListName,username,nameVersion,accessible) VALUES(?,?,?,?,?)",
 					new Object[] { traitList.getTraitListID(),
 							traitList.getTraitListName(),
 							traitList.getUsername(),
-							traitList.getNameVersion()});
+							traitList.getNameVersion(),
+							traitList.getAccessible()});
 			db.close();
 		}
 	}

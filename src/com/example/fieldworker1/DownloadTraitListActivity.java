@@ -249,6 +249,7 @@ public class DownloadTraitListActivity extends Activity {
 							
 						}
 						tl.setTraitListID(newtraitListID);
+						tl.setAccessible(1);
 						tlDao.insert(tl);
 						newSelectedTraitLists.add(tl);
 					}

@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.fieldworker1.R;
+import com.example.phpServer.DownloadTraitAndTraitList;
 import com.example.synchronization.Synchronization;
 import com.example.validator.MyApplication;
 import com.example.asynTask.LogoutAsynTask;
@@ -259,9 +260,7 @@ public class MainActivity extends ActionBarActivity {
 					Intent intent = new Intent();
 					intent.putExtra("username", u.getUserName());
 					intent.putExtra("password", u.getPassword());
-					if (isNetworkConnected(MainActivity.this)) {
-                          downloadTraitAndTraitList(u.getUserName());
-					}
+					
 					intent.setClass(MainActivity.this, HomeActivity.class);
 					startActivity(intent);
 					// finish();
@@ -424,7 +423,14 @@ public class MainActivity extends ActionBarActivity {
 						passwordText.getText().toString());
 				int loginResult = userHelper.check(user);
 				if (loginResult == -1) {
+					if (isNetworkConnected(MainActivity.this)) {
+						String url=Constant.urlString+"DownloadTraitAndTraitList.php";
+						DownloadTraitAndTraitList download=new DownloadTraitAndTraitList(MainActivity.this);
+						download.execute(url,usernameText.getText().toString());
+                         
+					}
 					LoginOnline(user);
+					
 				} else {
 					SharedPreferences mySharedPreferences = getSharedPreferences(
 							PREFS_NAME, Activity.MODE_PRIVATE);
