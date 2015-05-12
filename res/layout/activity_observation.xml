@@ -124,7 +124,7 @@
             android:layout_y="440dp"
             android:background="@drawable/et"
             android:gravity="center"
-            android:text="Comment"
+            android:text="Comments"
             android:textSize="14sp" />
     </AbsoluteLayout>
 

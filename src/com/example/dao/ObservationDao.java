@@ -107,16 +107,7 @@ public class ObservationDao {
 		}else{
 			str = sdf.format(observation.getDeleteTime());
 		}
-//		CharSequence dateForMart = android.text.format.DateFormat.format("yyyy-MM-dd", observation.getDeleteTime());
-//		System.out.println("test: " + dateForMart);
-//		try {
-//			System.out.println("add: "+ sdf.parse(String.valueOf(dateForMart)));
-//			System.out.println("add create: "+ observation.getCreateTime());
-//			System.out.println("add end: "+ observation.getDeleteTime());
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
 		db = helper.getWritableDatabase();
 		db.execSQL(
 				"INSERT INTO Observation(observationID,observationName,username,traitListID,endTime,photoPath,paintingPath,comment)"
@@ -170,7 +161,6 @@ public class ObservationDao {
 			db.close();
 			return observation;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

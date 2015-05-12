@@ -595,7 +595,7 @@ public class ShowTraitList extends Activity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				Integer traitListID = UUID.randomUUID().hashCode();
 				TraitList traitList = new TraitList(traitListID, edtInput
-						.getText().toString(), "aa");
+						.getText().toString(), username,1);
 				if (MyApplication.isNetworkOnline()) {
 					traitListPhpService.addTraitList(traitList, currentTraits);
 				}
